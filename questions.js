@@ -1,6 +1,7 @@
-questions = [
+let rounds = [
     // Round 1: State of SaaS Management
-    [
+    {title: "The State of SaaS Management",
+    questions:[
         {
             question:
                 "On average, how many SaaS Subscriptions do companies have?",
@@ -128,8 +129,10 @@ questions = [
             options: ["35%", "45%", "55%", "65%"],
             answer: 3,
         },
-    ], [
-        // Round 2: The AI Landscape Boom
+    ]}, 
+    // Round 2: The AI Landscape Boom
+    {title: "The AI Landscape Boom",
+    questions:[
         {
             question:
                 "Year-On-Year what is the growth rate of spend on AI tools?",
@@ -185,8 +188,10 @@ questions = [
             options: ["Lavender", "OpenAI", "CopyAI", "Gong"],
             answer: 3,
         },
-    ], [
-        // Round 3: Q1 SaaS Specifics
+    ]}, 
+    // Round 3: Q1 SaaS Specifics
+    {title: "Q1 SaaS Specifics",
+    questions:[
         {
             question:
                 "At the end of 2022, how much capital was left for VCs to invest?",
@@ -268,5 +273,5 @@ questions = [
             options: ["2", "4", "6", "8"],
             answer: 1,
         },
-    ]
+    ]}
 ];

@@ -41,7 +41,17 @@
       margin: auto;
     }
 
-    button {
+    .ui-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      vertical-align: middle;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .main-button {
       background-color: #3e489c;
       border: none;
       color: white;
@@ -57,7 +67,7 @@
       width: 400px;
     }
 
-    button:hover {
+    .main-button:hover {
       background-color: #20203c;
     }
 
@@ -66,15 +76,6 @@
       font-weight: 900;
       color: #20203c;
       text-align: center;
-      max-width: 1200px;
-      margin-bottom: 64px !important;
-    }
-
-    #game {
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      display: flex;
     }
 
     .buttons {
@@ -84,6 +85,7 @@
       justify-content: center;
       max-width: 850px;
       flex-wrap: wrap;
+      margin-top: 64px;
     }
 
     #title {
@@ -91,16 +93,7 @@
       font-weight: 900;
       color: #20203c;
       text-align: center;
-      max-width: 1200px;
       margin-bottom: 16px;
-    }
-
-    .correct {
-      background-color: green;
-    }
-
-    .incorrect {
-      background-color: red;
     }
 
     #answer {
@@ -113,32 +106,24 @@
       margin-top: 36px;
     }
 
-    #next {
+    .transparent-button {
       border: #20203c 1px solid;
       background: none;
       font-weight: 900;
       color: #20203c;
       text-align: center;
       max-width: 1200px;
-      margin-bottom: 0px;
-      margin: auto;
+      margin: 32px auto 0 auto;
       font-size: 24px;
     }
 
-    #next:hover {
+    .transparent-button:hover {
       background-color: #20203c;
       color: white;
     }
 
     .hidden {
       display: none !important;
-    }
-
-    #menu {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
     }
 
     #results p {
@@ -153,13 +138,6 @@
       font-size: 24px;
       padding-left: 6px;
       margin-bottom: 24px;
-    }
-
-    #scoreboard {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
     }
 
     #scoreboardData {
@@ -177,18 +155,33 @@
       background-color: white;
     }
 
-    td{
+    /* remove scrollbar*/
+    #table-div::-webkit-scrollbar {
+      display: none;
+    }
+
+    #table-div {
+      border-radius: 6px;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    td {
       padding: 12px;
     }
 
-    table th {
+    .highlight {
       background-color: #20203c;
       color: white;
-      min-width: 160px;
       padding: 12px;
+      font-weight: 900;
     }
-    
-    #table-div{
+
+    .teal-bg{
+      background-color: #3e489c;
+    }
+
+    #table-div {
       overflow-y: scroll;
       max-height: 400px;
       margin-bottom: 48px;
@@ -217,15 +210,15 @@
     }
 
     #title-sub {
-      font-size: 24px;
+      font-size: 48px;
       font-weight: 900;
       color: #20203c;
       text-align: center;
-      max-width: 1200px;
-      margin-bottom: 64px;
-      background-color: #20203c;
-      color: white;
+      width: 1200px;
       padding: 12px;
+      position: fixed;
+      top: calc(50% + 108px);
+      left: calc(50% - 600px);
     }
 
     .big-number {
@@ -240,17 +233,43 @@
       left: calc(50% - 42px);
     }
 
-    #results {
-
-      display: flex;
-      flex-direction: column;
-    }
-    .progress-bar{
+    .progress-bar {
       width: 100%;
       height: 40px;
       background-color: #20203c;
       position: fixed;
       bottom: 0;
+    }
+
+
+    p {
+      font-size: 24px;
+      font-weight: 900;
+      color: #20203c;
+      text-align: center;
+      max-width: 1200px;
+      margin-bottom: 24px;
+      margin-top: 48px;
+    }
+
+    .form {
+      margin-top: 64px;
+      margin-bottom: 64px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .flash-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    #round-img {
+      max-width: 800px;
+      object-fit: cover;
     }
   </style>
   <script src="questions.js"></script>
@@ -259,15 +278,37 @@
 <body>
   <img id="logo" src="logo.png" />
   <div class="main-container">
-    <div id="menu">
-      <div id="title">SaaS Jeopardy Game</div>
+    <div id="menu" class="ui-screen">
+      <style>
+        #title img {
+          width: 800px;
+          animation: bob 5s infinite ease-in-out;
+        }
+
+        /* title animation bob up and down */
+        @keyframes bob {
+          0% {
+            transform: translateY(0px);
+          }
+
+          50% {
+            transform: translateY(-10px);
+          }
+
+          100% {
+            transform: translateY(0px);
+          }
+        }
+      </style>
+      <div id="title">
+        <img src="jeopardy logo.png" />
+      </div>
       <div id="title-sub">
-        Unlock your superpowers - Win big - Dominate the game
+
       </div>
       <div class="buttons">
-        <button onclick="startGame()">Play</button>
-
-        <button onclick="showScoreboard()">Leaderboard</button>
+        <button class="main-button" onclick="startGame()">Play</button>
+        <button class="main-button" onclick="showScoreboardScreen()">Leaderboard</button>
       </div>
 
       <div id="subtitle">
@@ -279,75 +320,294 @@
       </div>
     </div>
 
-    <div id="round" class="hidden">
-      <h2 id="round-title"></h2>
+    <!-- ROUND SCREEN-->
+    <div id="round" class="hidden ui-screen">
+      <h2 id="round-number"></h2>
+      <h2 id="round-title" class="hidden"></h2>
+      <img id="round-img">
     </div>
 
-
-    <div id="game" class="hidden">
+    <!-- GAME SCREEN-->
+    <div id="game" class="hidden ui-screen">
       <h2 id="question"></h2>
-      <img id="searching" src="searching.gif" class="hidden" />
       <div class="buttons"></div>
-      <p id="answer"></p>
-      <button id="next" onclick="nextQuestion()" class="hidden">Next</button>
     </div>
 
-    <div id="results" class="hidden">
+    <!-- SEARCHING SCREEN-->
+    <div id="searching" class="hidden ui-screen">
+      <img src="searching.gif" />
+    </div>
+
+    <!-- ANSWER SCREEN-->
+    <div id="answer-screen" class="hidden ui-screen">
+      <h2 id="answer-title"></h2>
+      <p id="answer-text" class="answer-text"></p>
+      <button id="next" class="main-button transparent-button" onclick="nextQuestion()">Next</button>
+    </div>
+
+    <!-- RESULTS SCREEN-->
+    <div id="results" class="hidden ui-screen">
       <h2>Your score: <span id="score"></span></h2>
-      <input type="text" id="playerName" placeholder="Name" />
-      <input type="text" id="playerCompany" placeholder="Company" />
-      <button style="margin:auto;margin-top: 42px;" onclick="saveAndReturn(event)">
+      <div class="form">
+        <input type="text" id="playerName" placeholder="Name" />
+        <input type="text" id="playerCompany" placeholder="Company" />
+      </div>
+      <button class="main-button" onclick="saveAndReturn(event)">
         Leaderboard
       </button>
     </div>
 
-    <div id="scoreboard" class="hidden">
+    <!-- SCOREBOARD SCREEN-->
+    <div id="scoreboard" class="hidden ui-screen">
       <div id="table-div">
-      <table id="scores">
-        <tr>
-          <th>Name</th>
-          <th>Company</th>
-          <th>Score</th>
-        </tr>
-      </table>
+        <table id="scores">
+          <tr>
+            <th class="highlight">Rank</th>
+            <th class="highlight">Name</th>
+            <th class="highlight">Company</th>
+            <th class="highlight">Score</th>
+          </tr>
+        </table>
+      </div>
+      <button class="main-button" onclick="returnToMenu()">Go to main menu</button>
     </div>
-      <button onclick="returnToMenu()">Go to main menu</button>
+
+    <!-- DRUMROLL SCREEN -->
+    <div id="drumroll" class="hidden ui-screen">
+      <img src="drumroll.gif" />
     </div>
+
+
+
   </div>
 
   <script>
+    var maxParticleCount = 150; //set max confetti count
+    var particleSpeed = 2; //set the particle animation speed
+    var startConfetti; //call to start confetti animation
+    var stopConfetti; //call to stop adding confetti
+    var toggleConfetti; //call to start or stop the confetti animation depending on whether it's already running
+    var removeConfetti; //call to stop the confetti animation and remove all confetti immediately
 
+    (function () {
+      startConfetti = startConfettiInner;
+      stopConfetti = stopConfettiInner;
+      toggleConfetti = toggleConfettiInner;
+      removeConfetti = removeConfettiInner;
+      var colors = ["DodgerBlue", "OliveDrab", "Gold", "Pink", "SlateBlue", "LightBlue", "Violet", "PaleGreen", "SteelBlue", "SandyBrown", "Chocolate", "Crimson"]
+      var streamingConfetti = false;
+      var animationTimer = null;
+      var particles = [];
+      var waveAngle = 0;
 
+      function resetParticle(particle, width, height) {
+        particle.color = colors[(Math.random() * colors.length) | 0];
+        particle.x = Math.random() * width;
+        particle.y = Math.random() * height - height;
+        particle.diameter = Math.random() * 10 + 5;
+        particle.tilt = Math.random() * 10 - 10;
+        particle.tiltAngleIncrement = Math.random() * 0.07 + 0.05;
+        particle.tiltAngle = 0;
+        return particle;
+      }
+
+      function startConfettiInner() {
+        var width = window.innerWidth;
+        var height = window.innerHeight;
+        window.requestAnimFrame = (function () {
+          return window.requestAnimationFrame ||
+            window.webkitRequestAnimationFrame ||
+            window.mozRequestAnimationFrame ||
+            window.oRequestAnimationFrame ||
+            window.msRequestAnimationFrame ||
+            function (callback) {
+              return window.setTimeout(callback, 16.6666667);
+            };
+        })();
+        var canvas = document.getElementById("confetti-canvas");
+        if (canvas === null) {
+          canvas = document.createElement("canvas");
+          canvas.setAttribute("id", "confetti-canvas");
+          canvas.setAttribute("style", "display:block;z-index:1;pointer-events:none;position:fixed;top:0");
+          document.body.appendChild(canvas);
+          canvas.width = width;
+          canvas.height = height;
+          window.addEventListener("resize", function () {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+          }, true);
+        }
+        var context = canvas.getContext("2d");
+        while (particles.length < maxParticleCount)
+          particles.push(resetParticle({}, width, height));
+        streamingConfetti = true;
+        if (animationTimer === null) {
+          (function runAnimation() {
+            context.clearRect(0, 0, window.innerWidth, window.innerHeight);
+            if (particles.length === 0)
+              animationTimer = null;
+            else {
+              updateParticles();
+              drawParticles(context);
+              animationTimer = requestAnimFrame(runAnimation);
+            }
+          })();
+        }
+      }
+
+      function stopConfettiInner() {
+        streamingConfetti = false;
+      }
+
+      function removeConfettiInner() {
+        stopConfetti();
+        particles = [];
+      }
+
+      function toggleConfettiInner() {
+        if (streamingConfetti)
+          stopConfettiInner();
+        else
+          startConfettiInner();
+      }
+
+      function drawParticles(context) {
+        var particle;
+        var x;
+        for (var i = 0; i < particles.length; i++) {
+          particle = particles[i];
+          context.beginPath();
+          context.lineWidth = particle.diameter;
+          context.strokeStyle = particle.color;
+          x = particle.x + particle.tilt;
+          context.moveTo(x + particle.diameter / 2, particle.y);
+          context.lineTo(x, particle.y + particle.tilt + particle.diameter / 2);
+          context.stroke();
+        }
+      }
+
+      function updateParticles() {
+        var width = window.innerWidth;
+        var height = window.innerHeight;
+        var particle;
+        waveAngle += 0.01;
+        for (var i = 0; i < particles.length; i++) {
+          particle = particles[i];
+          if (!streamingConfetti && particle.y < -15)
+            particle.y = height + 100;
+          else {
+            particle.tiltAngle += particle.tiltAngleIncrement;
+            particle.x += Math.sin(waveAngle);
+            particle.y += (Math.cos(waveAngle) + particle.diameter + particleSpeed) * 0.5;
+            particle.tilt = Math.sin(particle.tiltAngle) * 15;
+          }
+          if (particle.x > width + 20 || particle.x < -20 || particle.y > height) {
+            if (streamingConfetti && particles.length <= maxParticleCount)
+              resetParticle(particle, width, height);
+            else {
+              particles.splice(i, 1);
+              i--;
+            }
+          }
+        }
+      }
+    })();
+  </script>
+
+  <script>
+
+    // Screens
     const menu = document.getElementById("menu");
     const game = document.getElementById("game");
     const results = document.getElementById("results");
     const scoreboard = document.getElementById("scoreboard");
+    const round = document.getElementById("round");
+    const answerScreen = document.getElementById("answer-screen");
+    const drumroll = document.getElementById("drumroll");
 
+    // DOM Elements
     const questionEl = document.getElementById("question");
     const option1 = document.getElementById("option1");
     const option2 = document.getElementById("option2");
     const option3 = document.getElementById("option3");
     const option4 = document.getElementById("option4");
 
-    const round = document.getElementById("round");
-    const roundTitle = document.getElementById("round-title");
+    const answerTitle = document.getElementById("answer-title");
+    const answerText = document.getElementById("answer-text");
+    const titleSub = document.getElementById("title-sub");
 
-    const answerParagraph = document.getElementById("answer");
+    const roundNumber = document.getElementById("round-number");
+    const roundTitle = document.getElementById("round-title");
+    const roundImg = document.getElementById("round-img");
+
+
     const optionsContainer = document.getElementsByClassName("buttons")[1]; // assuming the 2nd element with class 'buttons' is the options container
     // Getting a reference to the Next button
     const nextButton = document.getElementById("next");
 
+    // Game variables
     let currentStep = 0;
-
     let pastQuestions = [];
     let score = 0;
     let scores = [];
     let currentQuestion = null;
+    let countdownInterval = null;
+    let timeLeft = 0;
+
+    // Game settings
     let countdownTime = 1000
     let nextTime = 2000
-    let roundTime = 3000
+    let roundTime = 5000
+    let questionTimer = 2000
+    let hasRoundImg = true
+    let middleTime = 2000
 
-    let debug = false
+    // Debug
+    let debug = true
+
+    function animateTitleSub() {
+      let phrases = [
+        "Unlock your superpower",
+        "Win big",
+        "Dominate the game"
+      ]
+
+      let currentPhrase = 0;
+      let currentLetter = 0;
+      let isDeleting = false;
+      let isPaused = false;
+      let timer;
+
+      function type() {
+        let typedDiv = titleSub
+
+        if (isDeleting && currentLetter === -1) {
+          // Finished deleting a phrase, move on to the next one
+          currentPhrase++;
+          if (currentPhrase >= phrases.length) currentPhrase = 0;
+          isDeleting = false;
+          isPaused = true;
+          timer = setTimeout(type, 2000);
+        } else if (!isDeleting && currentLetter === phrases[currentPhrase].length) {
+          // Finished typing a phrase
+          isDeleting = true;
+          isPaused = true;
+          timer = setTimeout(type, 2000);
+        } else if (isPaused) {
+          // Pause is over, start typing or deleting again
+          isPaused = false;
+          timer = setTimeout(type, 50);
+        } else {
+          // Continue typing or deleting
+          typedDiv.innerHTML = phrases[currentPhrase].substr(0, currentLetter + (isDeleting ? 0 : 1));
+          currentLetter += isDeleting ? -1 : 1;
+          timer = setTimeout(type, 50);
+        }
+      }
+
+      type();  // Start typing
+
+    }
 
     if (debug) {
       countdownTime = 0
@@ -355,208 +615,372 @@
       roundTime = 0
     }
 
-    window.getQuestion = function getQuestion(step) {
+    function getQuestion(step) {
       currentQuestion =
-        questions[step][Math.floor(Math.random() * questions[step].length)];
+        // get a question from rounds[step].questions[random questionIndex]
+        rounds[step].questions[Math.floor(Math.random() * rounds[step].questions.length)];
     };
 
-    getQuestion(currentStep);
-
-    window.startGame = function startGame() {
-      menu.classList.add("hidden");
-      startRound();
-    };
-
-    window.startRound = function startRound() {
-      round.classList.remove("hidden");
-      switch(currentStep){
-        case 0:
-          roundTitle.innerHTML = "Round 1: State of SaaS Management";
-          break;
-        case 1:
-          roundTitle.innerHTML = "Round 2: The AI Landscape Boom";
-          break;
-        case 2:
-          roundTitle.innerHTML = "Round 3: Q1 SaaS Specifics";
-          break;
+    function changeScreen(next, middle) {
+      // get all ui-screen elements and hide them
+      let screens = document.getElementsByClassName("ui-screen");
+      for (let i = 0; i < screens.length; i++) {
+        screens[i].classList.add("hidden");
+        console.log(screens[i])
       }
+      // check if middle aint undefined
+      if (middle) {
+        middle.classList.remove("hidden");
+        setTimeout(() => {
+          middle.classList.add("hidden");
+          next.classList.remove("hidden");
+        }, middleTime);
+      } else {
+        next.classList.remove("hidden");
+      }
+      
+    };
+
+    function startGame() {
+      currentStep = 0;
+      let score = 0;
+      let pastQuestions = [];
+      changeScreen(round);
+      startRound();
+      getQuestion(currentStep);
+    };
+
+    function startRound() {
+      // hide roundtitle
+      roundTitle.classList.add("hidden");
+      roundImg.classList.add("hidden");
+
+      roundImg.src = 'round' + (currentStep + 1) + '.png'
+
+      // show round number
+      roundNumber.classList.remove("hidden");
+      roundNumber.innerHTML = ''
+
+      // Scale animation
+      let scale = 0.5;
+      let t = 0
+      let x = 1
+      let y = 1
+      let scaleInterval = setInterval(() => {
+
+        if (t > 210) {
+          clearInterval(scaleInterval);
+          roundNumber.classList.add("hidden");
+          if (hasRoundImg) {
+            roundImg.classList.remove("hidden");
+            // scale up round image slowly for 1 second
+            let scaleUp = 1.2;
+            let opacTime = 0;
+            let opacInterval = setInterval(() => {
+              if (opacTime < 4) {
+                  if (opacTime % 2 == 0) {
+                    roundImg.classList.add("hidden");
+                  } else {
+                    roundImg.classList.remove("hidden");
+                  }
+                  opacTime++;
+                } else {
+                  clearInterval(opacInterval);
+                }
+                console.log(opacTime)
+              }, 50);
+            let scaleUpInterval = setInterval(() => {
+              if (scaleUp > 1.23) {
+                clearInterval(scaleUpInterval);
+              } else {
+                scaleUp += 0.0001;
+                roundImg.style.transform = `scale(${scaleUp})`;
+              }
+            }, 10);
+          } else {
+            roundTitle.classList.remove("hidden");
+          }
+          flashColor('white')
+
+
+          let z = 1;
+          y = 0;
+          x = 0;
+          t = 0;
+
+        }
+
+        t++
+
+        scale += 0.04 * x;
+        x = y
+        y = y - 0.008
+
+        roundNumber.style.transform = `scale(${scale})`;
+      }, 10);
+
+      let typeIndex = 0;
+
+      roundNumber.innerHTML = ''
+      let roundString = 'Round ' + (currentStep + 1)
+
+      let typeInterval = setInterval(() => {
+        if (typeIndex >= roundString.length) {
+          clearInterval(typeInterval);
+          return;
+        }
+        // show the round number one letter at a time
+        roundNumber.innerHTML = roundString.slice(0, typeIndex + 1)
+        typeIndex++;
+
+      }, 100);
+
+
+      roundTitle.innerHTML = rounds[currentStep].title;
 
       setTimeout(() => {
-        round.classList.add("hidden");
-        game.classList.remove("hidden");
+        changeScreen(game);
         showQuestion(currentQuestion);
       }, roundTime);
-    };
+    }; 
 
-    window.showQuestion = function showQuestion(question) {
+    function flashColor(color) {
+      let screen = document.createElement("div");
+      screen.classList.add("flash-screen");
+      screen.style.backgroundColor = color;
+      document.body.appendChild(screen);
+      // decrease opacity every 10ms
+      let opacity = 1;
+      let flashInterval = setInterval(() => {
+        opacity -= 0.01;
+        screen.style.opacity = opacity;
+        if (opacity <= 0) {
+          clearInterval(flashInterval);
+          document.body.removeChild(screen);
+        }
+      }, 1);
+    }
 
-      // start 20 second countdown timer
-      let timeLeft = 1000;
+    function startProgressBar(questionTimer) {
 
-      // display a progress bar on the bottom of the page
       const progressBar = document.createElement("div");
       progressBar.classList.add("progress-bar");
       document.body.appendChild(progressBar);
 
       // scale the progress bar to the time left every 10ms and reduce the time left
-      const countdownInterval = setInterval(() => {
-        progressBar.style.width = `${(timeLeft / 1000) * 100}%`;
+
+      countdownInterval = setInterval(() => {
+        progressBar.style.width = `${(timeLeft / questionTimer) * 100}%`;
         timeLeft--;
+
         if (timeLeft < 0) {
+
           clearInterval(countdownInterval);
-          // hide question
-          questionEl.classList.add("hidden");
-          // hide buttons
-          optionsContainer.classList.add("hidden");
-          // show answer
-          answerParagraph.classList.remove("hidden");
-          answerParagraph.innerText = "Time's up!";
-          // show next button
-          nextButton.classList.remove("hidden");
+          showAnswer("time_up")
+
         }
       }, 10);
+    };
 
+    function showAnswer(action) {
+      changeScreen(answerScreen);
+      switch (action) {
+        case "time_up":
 
+          answerTitle.innerText = "Time's up!";
+          answerText.innerText = "The correct answer was: " + currentQuestion.options[currentQuestion.answer];
+          break;
+        case "correct":
+          answerTitle.innerText = "Correct!";
 
-      // Show question
-      questionEl.classList.remove("hidden");
+          break;
+        case "incorrect":
+          flashColor("red");
+          console.log("incorrect");
+          answerTitle.innerText = "Incorrect!";
+          answerText.innerText = "The correct answer was: " + currentQuestion.options[currentQuestion.answer];
+          break;
+      }
+    }
+
+    function showQuestion(question) {
+
+      // reset the timer
+      timeLeft = questionTimer;
+
+      startProgressBar(questionTimer);
 
       questionEl.innerText = question.question;
-
-      // show buttons container
-      optionsContainer.classList.remove("hidden");
 
       // remove all buttons
       optionsContainer.innerHTML = "";
 
       // Add new buttons
+      // pickCounter is used to check if the player has picked all the correct answers
       let pickCounter = 0;
+      // answerArray is used to store the player's answers
       let answerArray = [];
+
+      // for each option in the question
       for (let i = 0; i < question.options.length; i++) {
+        // create a button
         const optionButton = document.createElement("button");
+        // add the ID to the button
         optionButton.id = "option" + i;
+        // add the text to the button
         optionButton.innerText = question.options[i];
+
+        optionButton.classList.add("main-button");
+
+        // multiple choice counter
+        let multipleChoiceCounter = 0;
+
         // check if answer is array or number
         if (Array.isArray(question.answer)) {
-          optionButton.onclick = function () {
-            // reset timer and hide progress bar
-            clearInterval(countdownInterval);
-            // find elements with class progress-bar and remove them
-            const progressBars = document.getElementsByClassName("progress-bar");
-            for (let i = 0; i < progressBars.length; i++) {
-              progressBars[i].remove();
-            }
 
+          // for questions with multiple answers
+          optionButton.onclick = function () {
             pickCounter++;
             answerArray.push(i);
             optionButton.classList.add("selected");
+            // when the player checks all the answers
             if (pickCounter === question.answer.length) {
-              //hide question
-              questionEl.classList.add("hidden");
-              //hide buttons
-              optionsContainer.classList.add("hidden");
-              //show #searching gif
-              document.getElementById("searching").classList.remove("hidden");
-              //hide next button
-              nextButton.classList.add("hidden");
-              setTimeout(function () {
-                //hide loading
-                document.getElementById("searching").classList.add("hidden");
-                // Check if the elements in the answer array are the same as the elements in the question.answer array
-                if (
-                  answerArray.every((element) =>
-                    question.answer.includes(element)
-                  )
-                ) {
-                  score += timeLeft;
-                  score += timeLeft;
-                  answerParagraph.innerText =
-                    "Correct! You got double points for this question!";
-                } else {
-                  answerParagraph.innerText =
-                    // get the answers from the question.answer array
-                    "Incorrect! The correct answer was " +
-                    question.answer.map(
-                      (element) => question.options[element]
-                    );
-                }
-                // show the next button
-                nextButton.classList.remove("hidden");
-              }, nextTime);
+              removeProgressBar();
+              submitAnswer(question, answerArray, timeLeft);
+
             }
           };
         } else {
           optionButton.onclick = function () {
-             // reset timer and hide progress bar
-             clearInterval(countdownInterval);
-            // find elements with class progress-bar and remove them
-            const progressBars = document.getElementsByClassName("progress-bar");
-            for (let i = 0; i < progressBars.length; i++) {
-              progressBars[i].remove();
-            }
-            submitAnswer(question, i,timeLeft);
+
+            submitAnswer(question, i, timeLeft);
           };
         }
         optionsContainer.appendChild(optionButton);
       }
     };
 
-    window.submitAnswer = function submitAnswer(question, selectedOption,timeLeft) {
-      //hide question
-      questionEl.classList.add("hidden");
-      //hide buttons
-      optionsContainer.classList.add("hidden");
+    function showSearchingScreen(prev, next) {
+      // hide prev screen
+      prev.classList.add("hidden");
       //show #searching gif
       document.getElementById("searching").classList.remove("hidden");
-      // make the gif src be searching.gif
-      document.getElementById("searching").src = "";
-      document.getElementById("searching").src = "searching.gif";
+      document.getElementById("searching").querySelector("img").src = "";
+      document.getElementById("searching").querySelector("img").src = "searching.gif";
 
-      //hide next button
-      nextButton.classList.add("hidden");
+      // slowly scale up the searching gif
+      let scaleUp = 1;
+      let counterc = 0
+      let scaleUpInterval = setInterval(() => {
+        if (counterc > 2000) {
+          clearInterval(scaleUpInterval);
+        } else {
+          counterc++
+          scaleUp += 0.0002;
+          document.getElementById("searching").querySelector("img").style.transform = `scale(${scaleUp})`;
+        }
+      }, 1);
+      // show next screen after 2 seconds
       setTimeout(function () {
         //hide loading
         document.getElementById("searching").classList.add("hidden");
-        // Check if the answer is correct
-        if (selectedOption === question.answer) {
-          score += timeLeft;
-          answerParagraph.innerText =
-            "Correct! The answer is " + question.options[question.answer];
-        } else {
-          answerParagraph.innerText =
-            "Wrong! The correct answer is " +
-            question.options[question.answer];
-        }
-        // show the next button
-        nextButton.classList.remove("hidden");
+        //show next screen
+        next.classList.remove("hidden");
+
       }, nextTime);
+    }
+
+    function removeProgressBar() {
+      clearInterval(countdownInterval);
+      // find elements with class progress-bar and remove them
+      const progressBars = document.getElementsByClassName("progress-bar");
+      for (let i = 0; i < progressBars.length; i++) {
+        progressBars[i].remove();
+      }
     };
 
-    window.nextQuestion = function nextQuestion() {
-      // Reset the answer paragraph, re-enable the option buttons, hide the Next button, and move to the next question
-      answerParagraph.innerText = "";
-      nextButton.classList.add("hidden");
+    function submitAnswer(question, selectedOption, timeLeft) {
+      removeProgressBar();
+      showSearchingScreen(game, answerScreen);
+      // if selectedoption isnt an array
+      if (!Array.isArray(selectedOption)) {
+        // Check if the answer is correct
+        if (selectedOption === question.answer) {
+          setTimeout(function () {
+            flashColor("green");
+
+          }, nextTime);
+          score += timeLeft;
+          answerTitle.innerText =
+            "Correct!"
+          answerText.innerText = "The answer is " + question.options[question.answer];
+        } else {
+          setTimeout(function () {
+            flashColor("red");
+          }, nextTime);
+          answerTitle.innerText = "Incorrect!";
+          answerText.innerText = "The correct answer was " + question.options[question.answer];
+        }
+        // if selectedoption is an array
+      } else {
+        // Check if the answer is correct
+        if (
+          selectedOption.every((element) =>
+            question.answer.includes(element)
+          )) {
+          setTimeout(function () {
+            flashColor("green");
+          }, nextTime);
+          score += timeLeft;
+          score += timeLeft;
+          answerTitle.innerText =
+            "Correct!";
+          answerText.innerText =
+            "You got double points for this question!";
+        } else {
+          setTimeout(function () {
+            flashColor("red");
+          }, nextTime);
+          answerTitle.innerText = "Incorrect!";
+          answerText.innerText =
+            // get the answers from the question.answer array
+            "The correct answer was " +
+            question.answer.map(
+              (element) => question.options[element]
+            );
+        }
+
+      };
+    }
+
+    function nextQuestion() {
+
+
       currentStep++;
 
+      // if there is a bis question, show it
       if (currentQuestion.bis && currentStep < 4) {
         console.log("bis");
+        changeScreen( game);
         showQuestion(currentQuestion.bis);
         currentStep++;
+
+        // if there is no bis question and there are more questions, show the next question
       } else if (currentStep < 3) {
         getQuestion(currentStep);
+        changeScreen(round);
         startRound(currentQuestion)
+
+        // if there are no more questions, show the results
       } else {
-        // Reset the answer paragraph, re-enable the option buttons, hide the Next button, and move to the next question
-        answerParagraph.innerText = "";
-        nextButton.classList.add("hidden");
-        game.classList.add("hidden");
-        results.classList.remove("hidden");
+        changeScreen(results);
+        startConfetti();
         //show score on #score
         document.getElementById("score").innerText = score;
       }
     };
 
-    window.saveAndReturn = function saveAndReturn(event) {
+    function saveAndReturn(event) {
       event.preventDefault();
       const playerName = document.getElementById("playerName").value;
       const playerCompany = document.getElementById("playerCompany").value;
@@ -573,106 +997,144 @@
           .then(data => {
             console.log('Score successfully saved');
             event.preventDefault();
+            changeScreen(scoreboard,drumroll);
+            showScoreboard(newScore);
+            stopConfetti();
           })
           .catch((error) => {
             console.error('Error:', error);
           });
 
-        results.classList.add("hidden");
-        currentStep = 0;
-        getQuestion(currentStep);
-        score = 0;
-        showScoreboard();
+
       }
       console.log('everything ok')
     };
 
-
-
-
-    function showScoreboard() {
+    function showScoreboard(playerScore) {
       fetch('http://localhost:5500/scores') // make sure to replace this with your server's actual address
         .then(response => response.json())
         .then(data => {
           let scoresTable = document.getElementById("scores");
+          // clear table
+          scoresTable.querySelectorAll('td').forEach(n => n.remove());
           // assuming data is an array of objects where each object has 'name' and 'score'
           // sort data by score
           data.sort((a, b) => b.score - a.score);
           data.forEach((player) => {
             let row = document.createElement("tr");
+            let rank = document.createElement("td");
             let name = document.createElement("td");
             let company = document.createElement("td");
             let score = document.createElement("td");
+            rank.innerText = data.indexOf(player) + 1;
             name.innerText = player.name;
             company.innerText = player.company;
             score.innerText = player.score;
+
+            row.appendChild(rank);
             row.appendChild(name);
             row.appendChild(company);
             row.appendChild(score);
+            
             scoresTable.appendChild(row);
+            if (playerScore) {
+              if (player.name === playerScore.name && player.company === playerScore.company && player.score === playerScore.score) {
+                setTimeout(function () {
+                  startConfetti();
+                }, middleTime);
+                // if row is the top 1, add a trophy on the name
+                switch (data.indexOf(player)) {
+                  case 0:
+                    name.innerHTML = '🏆 ' + player.name;
+                    row.classList.add("highlight");
+                    row.style.backgroundColor = "#FFD700";
+                    row.style.color = "#000000";
+                    break;
+                  case 1:
+                    name.innerHTML = '🥈 ' + player.name;
+                    row.classList.add("highlight");
+                    row.style.backgroundColor = "#C0C0C0";
+                    row.style.color = "#000000";
+                    break;
+                  case 2:
+                    name.innerHTML = '🥉 ' + player.name;
+                    row.classList.add("highlight");
+                    row.style.backgroundColor = "#cd7f32";
+                    break;
+                }
+
+                // scroll to the highlighted row
+                row.scrollIntoView();
+              }
+            }
           });
 
-          menu.classList.add("hidden");
-          scoreboard.classList.remove("hidden");
-          console.log('Success:', data);
         })
         .catch(error => console.error('Error:', error));
     }
 
-    function returnToMenu() {
-      console.log("returning to menu")
-      scoreboard.classList.add("hidden");
-      menu.classList.remove("hidden");
+    function showScoreboardScreen() {
+      changeScreen(scoreboard);
+      showScoreboard();
     }
+
+    function returnToMenu() {
+      changeScreen(menu);
+      stopConfetti();
+    }
+
+
+    animateTitleSub()
+
+
   </script>
 
-  
-<script>
-  // Particle class
-  class Particle {
-    constructor() {
-      this.x = random(width);
-      this.y = random(height);
-      this.size = random(0.5, 2.5);
-      this.speedX = random(-1, 1);
-      this.speedY = random(-1, 1);
+  <script>
+    // Particle class
+    class Particle {
+      constructor() {
+        this.x = random(width);
+        this.y = random(height);
+        this.size = random(0.5, 2.5);
+        this.speedX = random(-1, 1);
+        this.speedY = random(-1, 1);
+      }
+
+      // Create a new particle
+      createParticle() {
+        noStroke();
+        fill("#1a9c9c");
+        circle(this.x, this.y, this.size);
+      }
+
+      // Move the particle
+      moveParticle() {
+        if (this.x < 0 || this.x > width) this.speedX *= -1;
+        if (this.y < 0 || this.y > height) this.speedY *= -1;
+        this.x += this.speedX;
+        this.y += this.speedY;
+      }
     }
 
-    // Create a new particle
-    createParticle() {
-      noStroke();
-      fill("#1a9c9c");
-      circle(this.x, this.y, this.size);
+    // Array to store particles
+    let particles = [];
+
+    function setup() {
+      let canvas = createCanvas(window.innerWidth, window.innerHeight);
+      canvas.id("myCanvas");
+      for (let i = 0; i < 500; i++) {
+        particles.push(new Particle());
+      }
     }
 
-    // Move the particle
-    moveParticle() {
-      if (this.x < 0 || this.x > width) this.speedX *= -1;
-      if (this.y < 0 || this.y > height) this.speedY *= -1;
-      this.x += this.speedX;
-      this.y += this.speedY;
+    function draw() {
+      background("#eff2f7");
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].createParticle();
+        particles[i].moveParticle();
+      }
     }
-  }
-
-  // Array to store particles
-  let particles = [];
-
-  function setup() {
-    let canvas = createCanvas(window.innerWidth, window.innerHeight);
-    canvas.id("myCanvas");
-    for (let i = 0; i < 500; i++) {
-      particles.push(new Particle());
-    }
-  }
-
-  function draw() {
-    background("#eff2f7");
-    for (let i = 0; i < particles.length; i++) {
-      particles[i].createParticle();
-      particles[i].moveParticle();
-    }
-  }
-</script>
+  </script>
 
 </body>
 
