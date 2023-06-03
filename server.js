@@ -2,12 +2,24 @@ const express = require('express');
 const fs = require('fs');
 const cors = require('cors');
 const app = express();
-const port = 5500;
+// get port, corsUrl and originPort from config.json
+const config = require('./config.json');
+const port = config.port;
+const corsUrl = config.corsUrl;
+const originPort = config.originPort;
 
-app.use(cors({
-  origin: 'http://34.68.132.80:5501'
-}));
+if (url === 'localhost') {
+  app.use(cors());
+  console.log('Running on localhost');
+} else {
+  app.use(cors({
+    origin: `http://${corsUrl}:${originPort}`
+  }));
+}
+
 app.use(express.json());
+
+
 
 app.use(express.json()); // This line is necessary to be able to parse JSON from the request body
 // Check if scores.json exists, and if not, create it

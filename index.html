@@ -10,6 +10,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;800&display=swap" rel="stylesheet" />
   <title>Trivia Game</title>
+  <script>
+    const port = 5500
+    const corsUrl = "34.68.132.80"
+    const originPort = 5501
+    const debug = false
+  </script>
   <style>
     * {
       margin: 0;
@@ -177,7 +183,7 @@
       font-weight: 900;
     }
 
-    .teal-bg{
+    .teal-bg {
       background-color: #3e489c;
     }
 
@@ -514,6 +520,7 @@
     })();
   </script>
 
+  <script src="config.json"></script>
   <script>
 
     // Screens
@@ -540,7 +547,6 @@
     const roundTitle = document.getElementById("round-title");
     const roundImg = document.getElementById("round-img");
 
-
     const optionsContainer = document.getElementsByClassName("buttons")[1]; // assuming the 2nd element with class 'buttons' is the options container
     // Getting a reference to the Next button
     const nextButton = document.getElementById("next");
@@ -561,9 +567,6 @@
     let questionTimer = 2000
     let hasRoundImg = true
     let middleTime = 2000
-
-    // Debug
-    let debug = true
 
     function animateTitleSub() {
       let phrases = [
@@ -638,13 +641,13 @@
       } else {
         next.classList.remove("hidden");
       }
-      
+
     };
 
     function startGame() {
       currentStep = 0;
-      let score = 0;
-      let pastQuestions = [];
+      score = 0;
+      pastQuestions = [];
       changeScreen(round);
       startRound();
       getQuestion(currentStep);
@@ -674,25 +677,27 @@
           if (hasRoundImg) {
             roundImg.classList.remove("hidden");
             // scale up round image slowly for 1 second
-            let scaleUp = 1.2;
+            let scaleUp = 1;
             let opacTime = 0;
             let opacInterval = setInterval(() => {
               if (opacTime < 4) {
-                  if (opacTime % 2 == 0) {
-                    roundImg.classList.add("hidden");
-                  } else {
-                    roundImg.classList.remove("hidden");
-                  }
-                  opacTime++;
-                } else {
-                  clearInterval(opacInterval);
+                if (opacTime % 2 == 0) {
+                    document.body.style.filter = 'invert(1)';
+                }  else {
+                    document.body.style.filter = 'invert(0)';
                 }
-                console.log(opacTime)
-              }, 50);
+                opacTime++;
+              } else {
+                clearInterval(opacInterval);
+              }
+              console.log(opacTime)
+            }, 50);
+            let scaleUpT = 0;
             let scaleUpInterval = setInterval(() => {
-              if (scaleUp > 1.23) {
+              if (scaleUpT > 3000) {
                 clearInterval(scaleUpInterval);
               } else {
+                scaleUpT += 10;
                 scaleUp += 0.0001;
                 roundImg.style.transform = `scale(${scaleUp})`;
               }
@@ -700,7 +705,7 @@
           } else {
             roundTitle.classList.remove("hidden");
           }
-          flashColor('white')
+          // flashColor('white')
 
 
           let z = 1;
@@ -742,7 +747,7 @@
         changeScreen(game);
         showQuestion(currentQuestion);
       }, roundTime);
-    }; 
+    };
 
     function flashColor(color) {
       let screen = document.createElement("div");
@@ -868,18 +873,7 @@
       document.getElementById("searching").querySelector("img").src = "";
       document.getElementById("searching").querySelector("img").src = "searching.gif";
 
-      // slowly scale up the searching gif
-      let scaleUp = 1;
-      let counterc = 0
-      let scaleUpInterval = setInterval(() => {
-        if (counterc > 2000) {
-          clearInterval(scaleUpInterval);
-        } else {
-          counterc++
-          scaleUp += 0.0002;
-          document.getElementById("searching").querySelector("img").style.transform = `scale(${scaleUp})`;
-        }
-      }, 1);
+     
       // show next screen after 2 seconds
       setTimeout(function () {
         //hide loading
@@ -961,7 +955,7 @@
       // if there is a bis question, show it
       if (currentQuestion.bis && currentStep < 4) {
         console.log("bis");
-        changeScreen( game);
+        changeScreen(game);
         showQuestion(currentQuestion.bis);
         currentStep++;
 
@@ -986,7 +980,7 @@
       const playerCompany = document.getElementById("playerCompany").value;
       if (playerName && playerCompany) {
         let newScore = { name: playerName, company: playerCompany, score };
-        fetch('http://34.68.132.80:5500/scores', {
+        fetch('http://' + corsUrl + ':' + port + '/scores', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -997,7 +991,7 @@
           .then(data => {
             console.log('Score successfully saved');
             event.preventDefault();
-            changeScreen(scoreboard,drumroll);
+            changeScreen(scoreboard, drumroll);
             showScoreboard(newScore);
             stopConfetti();
           })
@@ -1011,7 +1005,7 @@
     };
 
     function showScoreboard(playerScore) {
-      fetch('http://34.68.132.80:5500/scores') // make sure to replace this with your server's actual address
+      fetch('http://' + corsUrl + ':' + port + '/scores') // make sure to replace this with your server's actual address
         .then(response => response.json())
         .then(data => {
           let scoresTable = document.getElementById("scores");
@@ -1035,12 +1029,18 @@
             row.appendChild(name);
             row.appendChild(company);
             row.appendChild(score);
-            
+
             scoresTable.appendChild(row);
             if (playerScore) {
               if (player.name === playerScore.name && player.company === playerScore.company && player.score === playerScore.score) {
                 setTimeout(function () {
-                  startConfetti();
+
+                  setTimeout(function () {
+                    row.scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'center'
+                  }, 2000);
+                });
                 }, middleTime);
                 // if row is the top 1, add a trophy on the name
                 switch (data.indexOf(player)) {
@@ -1049,22 +1049,28 @@
                     row.classList.add("highlight");
                     row.style.backgroundColor = "#FFD700";
                     row.style.color = "#000000";
+                    startConfetti();
                     break;
                   case 1:
                     name.innerHTML = '🥈 ' + player.name;
                     row.classList.add("highlight");
                     row.style.backgroundColor = "#C0C0C0";
                     row.style.color = "#000000";
+                    startConfetti();
                     break;
                   case 2:
                     name.innerHTML = '🥉 ' + player.name;
                     row.classList.add("highlight");
                     row.style.backgroundColor = "#cd7f32";
+                    startConfetti();
                     break;
                 }
 
+                row.style.fontWeight = 900;
+
                 // scroll to the highlighted row
-                row.scrollIntoView();
+                
+
               }
             }
           });
