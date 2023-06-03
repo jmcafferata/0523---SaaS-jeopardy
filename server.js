@@ -4,7 +4,9 @@ const cors = require('cors');
 const app = express();
 const port = 5500;
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://34.68.132.80:5501'
+}));
 app.use(express.json());
 
 app.use(express.json()); // This line is necessary to be able to parse JSON from the request body
