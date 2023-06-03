@@ -3,12 +3,11 @@ const fs = require('fs');
 const cors = require('cors');
 const app = express();
 // get port, corsUrl and originPort from config.json
-const config = require('./config.json');
-const port = config.port;
-const corsUrl = config.corsUrl;
-const originPort = config.originPort;
+const port = 5500
+const corsUrl = "34.68.132.80"
+const originPort = 5501
 
-if (url === 'localhost') {
+if (corsUrl === 'localhost') {
   app.use(cors());
   console.log('Running on localhost');
 } else {
@@ -24,13 +23,13 @@ app.use(express.json());
 app.use(express.json()); // This line is necessary to be able to parse JSON from the request body
 // Check if scores.json exists, and if not, create it
 fs.access('scores.json', fs.constants.F_OK, (err) => {
-    if (err) {
-      fs.writeFile('scores.json', '[]', (err) => {
-        if (err) throw err;
-      });
-    }
-  });
-  
+  if (err) {
+    fs.writeFile('scores.json', '[]', (err) => {
+      if (err) throw err;
+    });
+  }
+});
+
 app.get('/scores', (req, res) => {
   fs.readFile('scores.json', 'utf8', (err, data) => {
     if (err) {
