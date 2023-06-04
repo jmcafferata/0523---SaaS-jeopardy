@@ -12,9 +12,12 @@
   <title>Trivia Game</title>
   <script>
     const port = 5500
-    const corsUrl = "34.68.132.80"
+    let corsUrl = "34.68.132.80"
     const originPort = 5501
-    const debug = false
+    const debug = true
+    if (debug) {
+      corsUrl = "localhost"
+    }
   </script>
   <style>
     * {
@@ -70,7 +73,7 @@
       border-radius: 6px;
       font-weight: 900;
       transition: all 0.2s ease-in-out;
-      width: 400px;
+      width: 450px;
     }
 
     .main-button:hover {
@@ -89,7 +92,7 @@
       flex-direction: row;
       align-items: center;
       justify-content: center;
-      max-width: 850px;
+      max-width: 950px;
       flex-wrap: wrap;
       margin-top: 64px;
     }
@@ -167,9 +170,10 @@
     }
 
     #table-div {
-      border-radius: 6px;
-      -ms-overflow-style: none;
-      scrollbar-width: none;
+      margin-top: 48px;
+      overflow-y: scroll;
+      max-height: 283px;
+      margin-bottom: 48px;
     }
 
     td {
@@ -187,20 +191,13 @@
       background-color: #3e489c;
     }
 
-    #table-div {
-      overflow-y: scroll;
-      max-height: 400px;
-      margin-bottom: 48px;
-    }
-
     #subtitle {
       position: fixed;
-      font-size: 18px;
+      font-size: 14px;
       color: #20203c;
       text-align: center;
-      max-width: 768px;
+      max-width: 1200px;
       bottom: 32px;
-      text-align: left;
     }
 
     .selected {
@@ -365,6 +362,7 @@
 
     <!-- SCOREBOARD SCREEN-->
     <div id="scoreboard" class="hidden ui-screen">
+      <h2 id="scoreboard-title">SaaS Champion: <span id="champion"></span></h2>
       <div id="table-div">
         <table id="scores">
           <tr>
@@ -376,6 +374,12 @@
         </table>
       </div>
       <button class="main-button" onclick="returnToMenu()">Go to main menu</button>
+    </div>
+
+    <!-- ANSWER SCREEN-->
+    <div id="comeback-screen" class="hidden ui-screen">
+      <h2 id="answer-title">Come back at 3pm to find out if you’ll be crowned the Official SaaS Champion</h2>
+      <button class="main-button transparent-button" onclick="returnToMenu()">Go to main menu</button>
     </div>
 
     <!-- DRUMROLL SCREEN -->
@@ -520,7 +524,6 @@
     })();
   </script>
 
-  <script src="config.json"></script>
   <script>
 
     // Screens
@@ -531,6 +534,7 @@
     const round = document.getElementById("round");
     const answerScreen = document.getElementById("answer-screen");
     const drumroll = document.getElementById("drumroll");
+    const comeback = document.getElementById("comeback-screen");
 
     // DOM Elements
     const questionEl = document.getElementById("question");
@@ -570,7 +574,7 @@
 
     function animateTitleSub() {
       let phrases = [
-        "Unlock your superpower",
+        "Unlock your SaaS superpowers",
         "Win big",
         "Dominate the game"
       ]
@@ -664,6 +668,8 @@
       roundNumber.classList.remove("hidden");
       roundNumber.innerHTML = ''
 
+      roundImg.style.opacity = 0;
+
       // Scale animation
       let scale = 0.5;
       let t = 0
@@ -678,21 +684,17 @@
             roundImg.classList.remove("hidden");
             // scale up round image slowly for 1 second
             let scaleUp = 1;
-            let opacTime = 0;
-            let opacInterval = setInterval(() => {
-              if (opacTime < 4) {
-                if (opacTime % 2 == 0) {
-                    document.body.style.filter = 'invert(1)';
-                }  else {
-                    document.body.style.filter = 'invert(0)';
-                }
-                opacTime++;
-              } else {
-                clearInterval(opacInterval);
-              }
-              console.log(opacTime)
-            }, 50);
+
             let scaleUpT = 0;
+            let fadeInT = 0;
+            let fadeInInterval = setInterval(() => {
+              if (fadeInT > 1000) {
+                clearInterval(fadeInInterval);
+              } else {
+                fadeInT += 10;
+                roundImg.style.opacity = fadeInT / 1000;
+              }
+            }, 10);
             let scaleUpInterval = setInterval(() => {
               if (scaleUpT > 3000) {
                 clearInterval(scaleUpInterval);
@@ -796,13 +798,13 @@
           answerText.innerText = "The correct answer was: " + currentQuestion.options[currentQuestion.answer];
           break;
         case "correct":
-          answerTitle.innerText = "Correct!";
+          answerTitle.innerText = "✅ Correct! 🔥";
 
           break;
         case "incorrect":
           flashColor("red");
           console.log("incorrect");
-          answerTitle.innerText = "Incorrect!";
+          answerTitle.innerText = "❌ Incorrect! ⛑️";
           answerText.innerText = "The correct answer was: " + currentQuestion.options[currentQuestion.answer];
           break;
       }
@@ -873,7 +875,7 @@
       document.getElementById("searching").querySelector("img").src = "";
       document.getElementById("searching").querySelector("img").src = "searching.gif";
 
-     
+
       // show next screen after 2 seconds
       setTimeout(function () {
         //hide loading
@@ -978,12 +980,18 @@
       event.preventDefault();
       const playerName = document.getElementById("playerName").value;
       const playerCompany = document.getElementById("playerCompany").value;
+      changeScreen(comeback);
+      stopConfetti();
+      /*
       if (playerName && playerCompany) {
         let newScore = { name: playerName, company: playerCompany, score };
+        // fetch with no-cors enabled
         fetch('http://' + corsUrl + ':' + port + '/scores', {
           method: 'POST',
+          mode: 'no-cors',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+
           },
           body: JSON.stringify(newScore)
         })
@@ -991,8 +999,7 @@
           .then(data => {
             console.log('Score successfully saved');
             event.preventDefault();
-            changeScreen(scoreboard, drumroll);
-            showScoreboard(newScore);
+            changeScreen(scoreboard, comeback);
             stopConfetti();
           })
           .catch((error) => {
@@ -1001,20 +1008,25 @@
 
 
       }
+      */
       console.log('everything ok')
     };
 
     function showScoreboard(playerScore) {
-      fetch('http://' + corsUrl + ':' + port + '/scores') // make sure to replace this with your server's actual address
-        .then(response => response.json())
+      fetch('http://' + corsUrl + ':' + port + '/scores').then(response => response.json())
         .then(data => {
           let scoresTable = document.getElementById("scores");
+          let champion = document.getElementById("champion");
           // clear table
           scoresTable.querySelectorAll('td').forEach(n => n.remove());
           // assuming data is an array of objects where each object has 'name' and 'score'
           // sort data by score
           data.sort((a, b) => b.score - a.score);
           data.forEach((player) => {
+            // set the champion
+            if (data.indexOf(player) === 0) {
+              champion.innerText = player.name + " from " + player.company;
+            }
             let row = document.createElement("tr");
             let rank = document.createElement("td");
             let name = document.createElement("td");
@@ -1037,10 +1049,10 @@
 
                   setTimeout(function () {
                     row.scrollIntoView({
-                  behavior: 'smooth',
-                  block: 'center'
-                  }, 2000);
-                });
+                      behavior: 'smooth',
+                      block: 'center'
+                    }, 2000);
+                  });
                 }, middleTime);
                 // if row is the top 1, add a trophy on the name
                 switch (data.indexOf(player)) {
@@ -1069,7 +1081,7 @@
                 row.style.fontWeight = 900;
 
                 // scroll to the highlighted row
-                
+
 
               }
             }
@@ -1080,8 +1092,13 @@
     }
 
     function showScoreboardScreen() {
-      changeScreen(scoreboard);
+      console.log('show scoreboard screen');
+      changeScreen(scoreboard, drumroll);
       showScoreboard();
+
+      setTimeout(function () {
+        startConfetti();
+      }, middleTime);
     }
 
     function returnToMenu() {
