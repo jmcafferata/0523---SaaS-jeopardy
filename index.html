@@ -14,7 +14,7 @@
     const port = 5500
     let corsUrl = "34.68.132.80"
     const originPort = 5501
-    const debug = false
+    const debug = true
     if (debug) {
       corsUrl = "localhost"
     }
@@ -982,7 +982,7 @@
       const playerCompany = document.getElementById("playerCompany").value;
       changeScreen(comeback);
       stopConfetti();
-      /*
+      
       if (playerName && playerCompany) {
         let newScore = { name: playerName, company: playerCompany, score };
         // fetch with no-cors enabled
@@ -1008,7 +1008,7 @@
 
 
       }
-      */
+      
       console.log('everything ok')
     };
 
