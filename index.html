@@ -274,6 +274,10 @@
       max-width: 800px;
       object-fit: cover;
     }
+
+    .margin-bottom-48 {
+      margin-bottom: 48px;
+    }
   </style>
   <script src="questions.js"></script>
 </head>
@@ -345,7 +349,7 @@
     <div id="answer-screen" class="hidden ui-screen">
       <h2 id="answer-title"></h2>
       <p id="answer-text" class="answer-text"></p>
-      <button id="next" class="main-button transparent-button" onclick="nextQuestion()">Next</button>
+      <button id="next" class="main-button transparent-button margin-bottom-48" onclick="nextQuestion()">Next</button>
     </div>
 
     <!-- RESULTS SCREEN-->
@@ -373,7 +377,7 @@
           </tr>
         </table>
       </div>
-      <button class="main-button" onclick="returnToMenu()">Go to main menu</button>
+      <button class="main-button"  onclick="returnToMenu()">Go to main menu</button>
     </div>
 
     <!-- ANSWER SCREEN-->
@@ -798,13 +802,13 @@
           answerText.innerText = "The correct answer was: " + currentQuestion.options[currentQuestion.answer];
           break;
         case "correct":
-          answerTitle.innerText = "✅Correct!🔥";
+          answerTitle.innerText = "✅ Correct! 🔥";
 
           break;
         case "incorrect":
           flashColor("red");
           console.log("incorrect");
-          answerTitle.innerText = "❌Incorrect!⛑️";
+          answerTitle.innerText = "❌ Incorrect! ⛑️";
           answerText.innerText = "The correct answer was: " + currentQuestion.options[currentQuestion.answer];
           break;
       }
@@ -914,7 +918,7 @@
           setTimeout(function () {
             flashColor("red");
           }, nextTime);
-          answerTitle.innerText = "❌Incorrect!⛑️";
+          answerTitle.innerText = "❌ Incorrect! ⛑️";
           answerText.innerText = "The correct answer was " + question.options[question.answer];
         }
         // if selectedoption is an array
@@ -937,7 +941,7 @@
           setTimeout(function () {
             flashColor("red");
           }, nextTime);
-          answerTitle.innerText = "❌Incorrect!⛑️";
+          answerTitle.innerText = "❌ Incorrect! ⛑️";
           answerText.innerText =
             // get the answers from the question.answer array
             "The correct answer was " +
