@@ -14,7 +14,7 @@
     const port = 5500
     let corsUrl = "34.68.132.80"
     const originPort = 5501
-    const debug = true
+    const debug = false
     if (debug) {
       corsUrl = "localhost"
     }
@@ -980,33 +980,29 @@
       event.preventDefault();
       const playerName = document.getElementById("playerName").value;
       const playerCompany = document.getElementById("playerCompany").value;
-      changeScreen(comeback);
-      stopConfetti();
       
       if (playerName && playerCompany) {
         let newScore = { name: playerName, company: playerCompany, score };
         // fetch with no-cors enabled
         fetch('http://' + corsUrl + ':' + port + '/scores', {
           method: 'POST',
-          mode: 'no-cors',
           headers: {
             'Content-Type': 'application/json',
-
           },
           body: JSON.stringify(newScore)
         })
-          .then(response => response.json())
-          .then(data => {
-            console.log('Score successfully saved');
-            event.preventDefault();
-            changeScreen(scoreboard, comeback);
-            stopConfetti();
-          })
-          .catch((error) => {
-            console.error('Error:', error);
-          });
-
-
+        .then(response => response.json())
+        .then(data => {
+          console.log('Score successfully saved');
+          event.preventDefault();
+          changeScreen(comeback);
+          stopConfetti();
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+        
+        
       }
       
       console.log('everything ok')
