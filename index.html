@@ -9,12 +9,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;800&display=swap" rel="stylesheet" />
-  <title>Trivia Game</title>
+  <title>SaaS Jeopardy</title>
   <script>
     const port = 5500
     let corsUrl = "34.68.132.80"
     const originPort = 5501
-    const debug = true
+    const debug = false
     if (debug) {
       corsUrl = "localhost"
     }
@@ -798,13 +798,13 @@
           answerText.innerText = "The correct answer was: " + currentQuestion.options[currentQuestion.answer];
           break;
         case "correct":
-          answerTitle.innerText = "✅ Correct! 🔥";
+          answerTitle.innerText = "✅Correct!🔥";
 
           break;
         case "incorrect":
           flashColor("red");
           console.log("incorrect");
-          answerTitle.innerText = "❌ Incorrect! ⛑️";
+          answerTitle.innerText = "❌Incorrect!⛑️";
           answerText.innerText = "The correct answer was: " + currentQuestion.options[currentQuestion.answer];
           break;
       }
@@ -908,13 +908,13 @@
           }, nextTime);
           score += timeLeft;
           answerTitle.innerText =
-            "Correct!"
+            "✅Correct!🔥"
           answerText.innerText = "The answer is " + question.options[question.answer];
         } else {
           setTimeout(function () {
             flashColor("red");
           }, nextTime);
-          answerTitle.innerText = "Incorrect!";
+          answerTitle.innerText = "❌Incorrect!⛑️";
           answerText.innerText = "The correct answer was " + question.options[question.answer];
         }
         // if selectedoption is an array
@@ -930,14 +930,14 @@
           score += timeLeft;
           score += timeLeft;
           answerTitle.innerText =
-            "Correct!";
+            "✅Correct!🔥";
           answerText.innerText =
             "You got double points for this question!";
         } else {
           setTimeout(function () {
             flashColor("red");
           }, nextTime);
-          answerTitle.innerText = "Incorrect!";
+          answerTitle.innerText = "❌Incorrect!⛑️";
           answerText.innerText =
             // get the answers from the question.answer array
             "The correct answer was " +
