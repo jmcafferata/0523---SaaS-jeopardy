@@ -9,16 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;800&display=swap" rel="stylesheet" />
-  <title>SaaS Jeopardy</title>
-  <script>
-    const port = 5500;
-    let corsUrl = "34.68.132.80";
-    const originPort = 5501;
-    const debug = false;
-    if (debug) {
-      corsUrl = "localhost";
-    }
-  </script>
+  <title>Trivia Game</title>
   <style>
     * {
       margin: 0;
@@ -73,7 +64,7 @@
       border-radius: 6px;
       font-weight: 900;
       transition: all 0.2s ease-in-out;
-      width: 450px;
+      width: 400px;
     }
 
     .main-button:hover {
@@ -92,7 +83,7 @@
       flex-direction: row;
       align-items: center;
       justify-content: center;
-      max-width: 950px;
+      max-width: 850px;
       flex-wrap: wrap;
       margin-top: 64px;
     }
@@ -170,10 +161,9 @@
     }
 
     #table-div {
-      margin-top: 48px;
-      overflow-y: scroll;
-      max-height: 283px;
-      margin-bottom: 48px;
+      border-radius: 6px;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
 
     td {
@@ -187,17 +177,24 @@
       font-weight: 900;
     }
 
-    .teal-bg {
+    .teal-bg{
       background-color: #3e489c;
+    }
+
+    #table-div {
+      overflow-y: scroll;
+      max-height: 400px;
+      margin-bottom: 48px;
     }
 
     #subtitle {
       position: fixed;
-      font-size: 14px;
+      font-size: 18px;
       color: #20203c;
       text-align: center;
-      max-width: 1200px;
+      max-width: 768px;
       bottom: 32px;
+      text-align: left;
     }
 
     .selected {
@@ -244,6 +241,7 @@
       bottom: 0;
     }
 
+
     p {
       font-size: 24px;
       font-weight: 900;
@@ -272,10 +270,6 @@
     #round-img {
       max-width: 800px;
       object-fit: cover;
-    }
-
-    .margin-bottom-48 {
-      margin-bottom: 48px;
     }
   </style>
   <script src="questions.js"></script>
@@ -309,12 +303,12 @@
       <div id="title">
         <img src="jeopardy logo.png" />
       </div>
-      <div id="title-sub"></div>
+      <div id="title-sub">
+
+      </div>
       <div class="buttons">
         <button class="main-button" onclick="startGame()">Play</button>
-        <button class="main-button" onclick="showScoreboardScreen()">
-          Leaderboard
-        </button>
+        <button class="main-button" onclick="showScoreboardScreen()">Leaderboard</button>
       </div>
 
       <div id="subtitle">
@@ -330,7 +324,7 @@
     <div id="round" class="hidden ui-screen">
       <h2 id="round-number"></h2>
       <h2 id="round-title" class="hidden"></h2>
-      <img id="round-img" />
+      <img id="round-img">
     </div>
 
     <!-- GAME SCREEN-->
@@ -348,17 +342,15 @@
     <div id="answer-screen" class="hidden ui-screen">
       <h2 id="answer-title"></h2>
       <p id="answer-text" class="answer-text"></p>
-      <button id="next" class="main-button transparent-button" onclick="nextQuestion()">
-        Next
-      </button>
+      <button id="next" class="main-button transparent-button" onclick="nextQuestion()">Next</button>
     </div>
 
     <!-- RESULTS SCREEN-->
     <div id="results" class="hidden ui-screen">
       <h2>Your score: <span id="score"></span></h2>
       <div class="form">
-        <input type="text" id="playerName" placeholder="Name" autocomplete="off"/>
-        <input type="text" id="playerCompany" placeholder="Company" autocomplete="off"/>
+        <input type="text" id="playerName" placeholder="Name" />
+        <input type="text" id="playerCompany" placeholder="Company" />
       </div>
       <button class="main-button" onclick="saveAndReturn(event)">
         Leaderboard
@@ -367,9 +359,6 @@
 
     <!-- SCOREBOARD SCREEN-->
     <div id="scoreboard" class="hidden ui-screen">
-      <h2 id="scoreboard-title">
-        SaaS Champion: <span id="champion"></span>
-      </h2>
       <div id="table-div">
         <table id="scores">
           <tr>
@@ -380,26 +369,16 @@
           </tr>
         </table>
       </div>
-      <button class="main-button" onclick="returnToMenu()">
-        Go to main menu
-      </button>
-    </div>
-
-    <!-- COMEBACK SCREEN-->
-    <div id="comeback-screen" class="hidden ui-screen">
-      <h2 id="answer-title">
-        Come back at 3pm to find out if you’ll be crowned the Official SaaS
-        Champion
-      </h2>
-      <button class="main-button transparent-button" style="margin-top: 48px" onclick="returnToMenu()">
-        Go to main menu
-      </button>
+      <button class="main-button" onclick="returnToMenu()">Go to main menu</button>
     </div>
 
     <!-- DRUMROLL SCREEN -->
     <div id="drumroll" class="hidden ui-screen">
       <img src="drumroll.gif" />
     </div>
+
+
+
   </div>
 
   <script>
@@ -415,20 +394,7 @@
       stopConfetti = stopConfettiInner;
       toggleConfetti = toggleConfettiInner;
       removeConfetti = removeConfettiInner;
-      var colors = [
-        "DodgerBlue",
-        "OliveDrab",
-        "Gold",
-        "Pink",
-        "SlateBlue",
-        "LightBlue",
-        "Violet",
-        "PaleGreen",
-        "SteelBlue",
-        "SandyBrown",
-        "Chocolate",
-        "Crimson",
-      ];
+      var colors = ["DodgerBlue", "OliveDrab", "Gold", "Pink", "SlateBlue", "LightBlue", "Violet", "PaleGreen", "SteelBlue", "SandyBrown", "Chocolate", "Crimson"]
       var streamingConfetti = false;
       var animationTimer = null;
       var particles = [];
@@ -449,36 +415,27 @@
         var width = window.innerWidth;
         var height = window.innerHeight;
         window.requestAnimFrame = (function () {
-          return (
-            window.requestAnimationFrame ||
+          return window.requestAnimationFrame ||
             window.webkitRequestAnimationFrame ||
             window.mozRequestAnimationFrame ||
             window.oRequestAnimationFrame ||
             window.msRequestAnimationFrame ||
             function (callback) {
               return window.setTimeout(callback, 16.6666667);
-            }
-          );
+            };
         })();
         var canvas = document.getElementById("confetti-canvas");
         if (canvas === null) {
           canvas = document.createElement("canvas");
           canvas.setAttribute("id", "confetti-canvas");
-          canvas.setAttribute(
-            "style",
-            "display:block;z-index:1;pointer-events:none;position:fixed;top:0"
-          );
+          canvas.setAttribute("style", "display:block;z-index:1;pointer-events:none;position:fixed;top:0");
           document.body.appendChild(canvas);
           canvas.width = width;
           canvas.height = height;
-          window.addEventListener(
-            "resize",
-            function () {
-              canvas.width = window.innerWidth;
-              canvas.height = window.innerHeight;
-            },
-            true
-          );
+          window.addEventListener("resize", function () {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+          }, true);
         }
         var context = canvas.getContext("2d");
         while (particles.length < maxParticleCount)
@@ -487,7 +444,8 @@
         if (animationTimer === null) {
           (function runAnimation() {
             context.clearRect(0, 0, window.innerWidth, window.innerHeight);
-            if (particles.length === 0) animationTimer = null;
+            if (particles.length === 0)
+              animationTimer = null;
             else {
               updateParticles();
               drawParticles(context);
@@ -507,8 +465,10 @@
       }
 
       function toggleConfettiInner() {
-        if (streamingConfetti) stopConfettiInner();
-        else startConfettiInner();
+        if (streamingConfetti)
+          stopConfettiInner();
+        else
+          startConfettiInner();
       }
 
       function drawParticles(context) {
@@ -521,10 +481,7 @@
           context.strokeStyle = particle.color;
           x = particle.x + particle.tilt;
           context.moveTo(x + particle.diameter / 2, particle.y);
-          context.lineTo(
-            x,
-            particle.y + particle.tilt + particle.diameter / 2
-          );
+          context.lineTo(x, particle.y + particle.tilt + particle.diameter / 2);
           context.stroke();
         }
       }
@@ -541,15 +498,10 @@
           else {
             particle.tiltAngle += particle.tiltAngleIncrement;
             particle.x += Math.sin(waveAngle);
-            particle.y +=
-              (Math.cos(waveAngle) + particle.diameter + particleSpeed) * 0.5;
+            particle.y += (Math.cos(waveAngle) + particle.diameter + particleSpeed) * 0.5;
             particle.tilt = Math.sin(particle.tiltAngle) * 15;
           }
-          if (
-            particle.x > width + 20 ||
-            particle.x < -20 ||
-            particle.y > height
-          ) {
+          if (particle.x > width + 20 || particle.x < -20 || particle.y > height) {
             if (streamingConfetti && particles.length <= maxParticleCount)
               resetParticle(particle, width, height);
             else {
@@ -563,6 +515,7 @@
   </script>
 
   <script>
+
     // Screens
     const menu = document.getElementById("menu");
     const game = document.getElementById("game");
@@ -571,7 +524,6 @@
     const round = document.getElementById("round");
     const answerScreen = document.getElementById("answer-screen");
     const drumroll = document.getElementById("drumroll");
-    const comeback = document.getElementById("comeback-screen");
 
     // DOM Elements
     const questionEl = document.getElementById("question");
@@ -588,6 +540,7 @@
     const roundTitle = document.getElementById("round-title");
     const roundImg = document.getElementById("round-img");
 
+
     const optionsContainer = document.getElementsByClassName("buttons")[1]; // assuming the 2nd element with class 'buttons' is the options container
     // Getting a reference to the Next button
     const nextButton = document.getElementById("next");
@@ -602,19 +555,22 @@
     let timeLeft = 0;
 
     // Game settings
-    let countdownTime = 1000;
-    let nextTime = 2000;
-    let roundTime = 5000;
-    let questionTimer = 2000;
-    let hasRoundImg = true;
-    let middleTime = 2000;
+    let countdownTime = 1000
+    let nextTime = 2000
+    let roundTime = 5000
+    let questionTimer = 2000
+    let hasRoundImg = true
+    let middleTime = 2000
+
+    // Debug
+    let debug = true
 
     function animateTitleSub() {
       let phrases = [
-        "Unlock your SaaS superpowers",
+        "Unlock your superpower",
         "Win big",
-        "Dominate the game",
-      ];
+        "Dominate the game"
+      ]
 
       let currentPhrase = 0;
       let currentLetter = 0;
@@ -623,7 +579,7 @@
       let timer;
 
       function type() {
-        let typedDiv = titleSub;
+        let typedDiv = titleSub
 
         if (isDeleting && currentLetter === -1) {
           // Finished deleting a phrase, move on to the next one
@@ -632,10 +588,7 @@
           isDeleting = false;
           isPaused = true;
           timer = setTimeout(type, 2000);
-        } else if (
-          !isDeleting &&
-          currentLetter === phrases[currentPhrase].length
-        ) {
+        } else if (!isDeleting && currentLetter === phrases[currentPhrase].length) {
           // Finished typing a phrase
           isDeleting = true;
           isPaused = true;
@@ -646,38 +599,34 @@
           timer = setTimeout(type, 50);
         } else {
           // Continue typing or deleting
-          typedDiv.innerHTML = phrases[currentPhrase].substr(
-            0,
-            currentLetter + (isDeleting ? 0 : 1)
-          );
+          typedDiv.innerHTML = phrases[currentPhrase].substr(0, currentLetter + (isDeleting ? 0 : 1));
           currentLetter += isDeleting ? -1 : 1;
           timer = setTimeout(type, 50);
         }
       }
 
-      type(); // Start typing
+      type();  // Start typing
+
     }
 
     if (debug) {
-      countdownTime = 0;
-      nextTime = 0;
-      roundTime = 0;
+      countdownTime = 0
+      nextTime = 0
+      roundTime = 0
     }
 
     function getQuestion(step) {
       currentQuestion =
         // get a question from rounds[step].questions[random questionIndex]
-        rounds[step].questions[
-        Math.floor(Math.random() * rounds[step].questions.length)
-        ];
-    }
+        rounds[step].questions[Math.floor(Math.random() * rounds[step].questions.length)];
+    };
 
     function changeScreen(next, middle) {
       // get all ui-screen elements and hide them
       let screens = document.getElementsByClassName("ui-screen");
       for (let i = 0; i < screens.length; i++) {
         screens[i].classList.add("hidden");
-        console.log(screens[i]);
+        console.log(screens[i])
       }
       // check if middle aint undefined
       if (middle) {
@@ -689,114 +638,61 @@
       } else {
         next.classList.remove("hidden");
       }
-    }
+      
+    };
 
     function startGame() {
       currentStep = 0;
-      score = 0;
-      pastQuestions = [];
+      let score = 0;
+      let pastQuestions = [];
       changeScreen(round);
       startRound();
       getQuestion(currentStep);
-    }
-
-    function bounceUp(element) {
-      let scale = 0.5;
-      let t = 0;
-      let x = 1;
-      let y = 1;
-      let scaleInterval = setInterval(() => {
-        if (t > 210) {
-          clearInterval(scaleInterval);
-          element.classList.add("hidden");
-          return;
-        }
-        t++;
-
-        scale += 0.04 * x;
-        x = y;
-        y = y - 0.008;
-
-        element.style.transform = `scale(${scale})`;
-      }, 10);
-    }
-
-
-    function showComeback() {
-      let comebackh2 = comeback.querySelector("h2");
-      comebackh2.innerHTML = "";
-      comebackh2.style.transform = "scale(1)";
-      comebackText = "Come back at 3 pm to find out if you'll be crowned.... (drumroll).... ";
-
-      let i = 0;
-      let typeInterval = setInterval(() => {
-        if (i == comebackText.length - 1) {
-          clearInterval(typeInterval);
-          texts = ["The", "🎖️ Official 🎖️", "SaaS", "✨ Champion ✨"];
-          comebackh2.innerHTML = "";
-          comebackh2.innerHTML = texts[0];
-          // for each text, flash it for 2 seconds
-          j = 1;
-          let flashInterval = setInterval(() => {
-            if (j == texts.length) {
-              clearInterval(flashInterval);
-              return;
-            }
-            comebackh2.style.transform = "scale(1.5)";
-            comebackh2.innerHTML = texts[j];
-            j++;
-          }, 1500);
-        }
-        // add a letter
-        comebackh2.innerHTML += comebackText[i];
-        i++;
-      }, 50);
-
-
-    }
+    };
 
     function startRound() {
       // hide roundtitle
       roundTitle.classList.add("hidden");
       roundImg.classList.add("hidden");
 
-      roundImg.src = "round" + (currentStep + 1) + ".png";
+      roundImg.src = 'round' + (currentStep + 1) + '.png'
 
       // show round number
       roundNumber.classList.remove("hidden");
-      roundNumber.innerHTML = "";
-
-      roundImg.style.opacity = 0;
+      roundNumber.innerHTML = ''
 
       // Scale animation
       let scale = 0.5;
-      let t = 0;
-      let x = 1;
-      let y = 1;
+      let t = 0
+      let x = 1
+      let y = 1
       let scaleInterval = setInterval(() => {
+
         if (t > 210) {
           clearInterval(scaleInterval);
           roundNumber.classList.add("hidden");
           if (hasRoundImg) {
             roundImg.classList.remove("hidden");
             // scale up round image slowly for 1 second
-            let scaleUp = 1;
-
-            let scaleUpT = 0;
-            let fadeInT = 0;
-            let fadeInInterval = setInterval(() => {
-              if (fadeInT > 1000) {
-                clearInterval(fadeInInterval);
-              } else {
-                fadeInT += 10;
-                roundImg.style.opacity = fadeInT / 1000;
-              }
-            }, 10);
+            let scaleUp = 1.2;
+            let opacTime = 0;
+            let opacInterval = setInterval(() => {
+              if (opacTime < 4) {
+                  if (opacTime % 2 == 0) {
+                    roundImg.classList.add("hidden");
+                  } else {
+                    roundImg.classList.remove("hidden");
+                  }
+                  opacTime++;
+                } else {
+                  clearInterval(opacInterval);
+                }
+                console.log(opacTime)
+              }, 50);
             let scaleUpInterval = setInterval(() => {
-              if (scaleUpT > 3000) {
+              if (scaleUp > 1.23) {
                 clearInterval(scaleUpInterval);
               } else {
-                scaleUpT += 10;
                 scaleUp += 0.0001;
                 roundImg.style.transform = `scale(${scaleUp})`;
               }
@@ -804,27 +700,29 @@
           } else {
             roundTitle.classList.remove("hidden");
           }
-          // flashColor('white')
+          flashColor('white')
+
 
           let z = 1;
           y = 0;
           x = 0;
           t = 0;
+
         }
 
-        t++;
+        t++
 
         scale += 0.04 * x;
-        x = y;
-        y = y - 0.008;
+        x = y
+        y = y - 0.008
 
         roundNumber.style.transform = `scale(${scale})`;
       }, 10);
 
       let typeIndex = 0;
 
-      roundNumber.innerHTML = "";
-      let roundString = "Round " + (currentStep + 1);
+      roundNumber.innerHTML = ''
+      let roundString = 'Round ' + (currentStep + 1)
 
       let typeInterval = setInterval(() => {
         if (typeIndex >= roundString.length) {
@@ -832,9 +730,11 @@
           return;
         }
         // show the round number one letter at a time
-        roundNumber.innerHTML = roundString.slice(0, typeIndex + 1);
+        roundNumber.innerHTML = roundString.slice(0, typeIndex + 1)
         typeIndex++;
+
       }, 100);
+
 
       roundTitle.innerHTML = rounds[currentStep].title;
 
@@ -842,7 +742,7 @@
         changeScreen(game);
         showQuestion(currentQuestion);
       }, roundTime);
-    }
+    }; 
 
     function flashColor(color) {
       let screen = document.createElement("div");
@@ -862,6 +762,7 @@
     }
 
     function startProgressBar(questionTimer) {
+
       const progressBar = document.createElement("div");
       progressBar.classList.add("progress-bar");
       document.body.appendChild(progressBar);
@@ -873,37 +774,37 @@
         timeLeft--;
 
         if (timeLeft < 0) {
+
           clearInterval(countdownInterval);
-          showAnswer("time_up");
+          showAnswer("time_up")
+
         }
       }, 10);
-    }
+    };
 
     function showAnswer(action) {
       changeScreen(answerScreen);
       switch (action) {
         case "time_up":
-          answerTitle.innerText = "⏰ Time's up ⏰";
-          answerText.innerText =
-            "The correct answer was: " +
-            currentQuestion.options[currentQuestion.answer];
+
+          answerTitle.innerText = "Time's up!";
+          answerText.innerText = "The correct answer was: " + currentQuestion.options[currentQuestion.answer];
           break;
         case "correct":
-          answerTitle.innerText = "🔥 Correct! 🔥";
+          answerTitle.innerText = "Correct!";
 
           break;
         case "incorrect":
           flashColor("red");
           console.log("incorrect");
-          answerTitle.innerText = "⛑️ Incorrect ⛑️";
-          answerText.innerText =
-            "The correct answer was: " +
-            currentQuestion.options[currentQuestion.answer];
+          answerTitle.innerText = "Incorrect!";
+          answerText.innerText = "The correct answer was: " + currentQuestion.options[currentQuestion.answer];
           break;
       }
     }
 
     function showQuestion(question) {
+
       // reset the timer
       timeLeft = questionTimer;
 
@@ -936,6 +837,7 @@
 
         // check if answer is array or number
         if (Array.isArray(question.answer)) {
+
           // for questions with multiple answers
           optionButton.onclick = function () {
             pickCounter++;
@@ -945,16 +847,18 @@
             if (pickCounter === question.answer.length) {
               removeProgressBar();
               submitAnswer(question, answerArray, timeLeft);
+
             }
           };
         } else {
           optionButton.onclick = function () {
+
             submitAnswer(question, i, timeLeft);
           };
         }
         optionsContainer.appendChild(optionButton);
       }
-    }
+    };
 
     function showSearchingScreen(prev, next) {
       // hide prev screen
@@ -962,15 +866,27 @@
       //show #searching gif
       document.getElementById("searching").classList.remove("hidden");
       document.getElementById("searching").querySelector("img").src = "";
-      document.getElementById("searching").querySelector("img").src =
-        "searching.gif";
+      document.getElementById("searching").querySelector("img").src = "searching.gif";
 
+      // slowly scale up the searching gif
+      let scaleUp = 1;
+      let counterc = 0
+      let scaleUpInterval = setInterval(() => {
+        if (counterc > 2000) {
+          clearInterval(scaleUpInterval);
+        } else {
+          counterc++
+          scaleUp += 0.0002;
+          document.getElementById("searching").querySelector("img").style.transform = `scale(${scaleUp})`;
+        }
+      }, 1);
       // show next screen after 2 seconds
       setTimeout(function () {
         //hide loading
         document.getElementById("searching").classList.add("hidden");
         //show next screen
         next.classList.remove("hidden");
+
       }, nextTime);
     }
 
@@ -981,7 +897,7 @@
       for (let i = 0; i < progressBars.length; i++) {
         progressBars[i].remove();
       }
-    }
+    };
 
     function submitAnswer(question, selectedOption, timeLeft) {
       removeProgressBar();
@@ -992,52 +908,60 @@
         if (selectedOption === question.answer) {
           setTimeout(function () {
             flashColor("green");
+
           }, nextTime);
           score += timeLeft;
-          answerTitle.innerText = "🔥 Correct 🔥";
-          answerText.innerText =
-            "The answer is " + question.options[question.answer];
+          answerTitle.innerText =
+            "Correct!"
+          answerText.innerText = "The answer is " + question.options[question.answer];
         } else {
           setTimeout(function () {
             flashColor("red");
           }, nextTime);
-          answerTitle.innerText = "⛑️ Incorrect ⛑️";
-          answerText.innerText =
-            "The correct answer was " + question.options[question.answer];
+          answerTitle.innerText = "Incorrect!";
+          answerText.innerText = "The correct answer was " + question.options[question.answer];
         }
         // if selectedoption is an array
       } else {
         // Check if the answer is correct
         if (
-          selectedOption.every((element) => question.answer.includes(element))
-        ) {
+          selectedOption.every((element) =>
+            question.answer.includes(element)
+          )) {
           setTimeout(function () {
             flashColor("green");
           }, nextTime);
           score += timeLeft;
           score += timeLeft;
-          answerTitle.innerText = "🔥 Correct 🔥";
-          answerText.innerText = "You got double points for this question!";
+          answerTitle.innerText =
+            "Correct!";
+          answerText.innerText =
+            "You got double points for this question!";
         } else {
           setTimeout(function () {
             flashColor("red");
           }, nextTime);
-          answerTitle.innerText = "⛑️ Incorrect ⛑️";
+          answerTitle.innerText = "Incorrect!";
           answerText.innerText =
             // get the answers from the question.answer array
             "The correct answer was " +
-            question.answer.map((element) => question.options[element]);
+            question.answer.map(
+              (element) => question.options[element]
+            );
         }
-      }
+
+      };
     }
 
     function nextQuestion() {
+
+
       currentStep++;
 
       // if there is a bis question, show it
       if (currentQuestion.bis && currentStep < 4) {
         console.log("bis");
-        changeScreen(game);
+        changeScreen( game);
         showQuestion(currentQuestion.bis);
         currentStep++;
 
@@ -1045,7 +969,7 @@
       } else if (currentStep < 3) {
         getQuestion(currentStep);
         changeScreen(round);
-        startRound(currentQuestion);
+        startRound(currentQuestion)
 
         // if there are no more questions, show the results
       } else {
@@ -1054,56 +978,49 @@
         //show score on #score
         document.getElementById("score").innerText = score;
       }
-    }
+    };
 
     function saveAndReturn(event) {
       event.preventDefault();
       const playerName = document.getElementById("playerName").value;
       const playerCompany = document.getElementById("playerCompany").value;
-
       if (playerName && playerCompany) {
         let newScore = { name: playerName, company: playerCompany, score };
-        // fetch with no-cors enabled
-        fetch("http://" + corsUrl + ":" + port + "/scores", {
-          method: "POST",
+        fetch('http://localhost:5500/scores', {
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json'
           },
-          body: JSON.stringify(newScore),
+          body: JSON.stringify(newScore)
         })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log("Score successfully saved");
+          .then(response => response.json())
+          .then(data => {
+            console.log('Score successfully saved');
             event.preventDefault();
-            changeScreen(comeback)
-            showComeback();
-
+            changeScreen(scoreboard,drumroll);
+            showScoreboard(newScore);
             stopConfetti();
           })
           .catch((error) => {
-            console.error("Error:", error);
+            console.error('Error:', error);
           });
-      }
 
-      console.log("everything ok");
-    }
+
+      }
+      console.log('everything ok')
+    };
 
     function showScoreboard(playerScore) {
-      fetch("http://" + corsUrl + ":" + port + "/scores")
-        .then((response) => response.json())
-        .then((data) => {
+      fetch('http://localhost:5500/scores') // make sure to replace this with your server's actual address
+        .then(response => response.json())
+        .then(data => {
           let scoresTable = document.getElementById("scores");
-          let champion = document.getElementById("champion");
           // clear table
-          scoresTable.querySelectorAll("td").forEach((n) => n.remove());
+          scoresTable.querySelectorAll('td').forEach(n => n.remove());
           // assuming data is an array of objects where each object has 'name' and 'score'
           // sort data by score
           data.sort((a, b) => b.score - a.score);
           data.forEach((player) => {
-            // set the champion
-            if (data.indexOf(player) === 0) {
-              champion.innerText = player.name + " from " + player.company;
-            }
             let row = document.createElement("tr");
             let rank = document.createElement("td");
             let name = document.createElement("td");
@@ -1118,67 +1035,47 @@
             row.appendChild(name);
             row.appendChild(company);
             row.appendChild(score);
-
+            
             scoresTable.appendChild(row);
             if (playerScore) {
-              if (
-                player.name === playerScore.name &&
-                player.company === playerScore.company &&
-                player.score === playerScore.score
-              ) {
+              if (player.name === playerScore.name && player.company === playerScore.company && player.score === playerScore.score) {
                 setTimeout(function () {
-                  setTimeout(function () {
-                    row.scrollIntoView(
-                      {
-                        behavior: "smooth",
-                        block: "center",
-                      },
-                      2000
-                    );
-                  });
+                  startConfetti();
                 }, middleTime);
                 // if row is the top 1, add a trophy on the name
                 switch (data.indexOf(player)) {
                   case 0:
-                    name.innerHTML = "🏆 " + player.name;
+                    name.innerHTML = '🏆 ' + player.name;
                     row.classList.add("highlight");
                     row.style.backgroundColor = "#FFD700";
                     row.style.color = "#000000";
-                    startConfetti();
                     break;
                   case 1:
-                    name.innerHTML = "🥈 " + player.name;
+                    name.innerHTML = '🥈 ' + player.name;
                     row.classList.add("highlight");
                     row.style.backgroundColor = "#C0C0C0";
                     row.style.color = "#000000";
-                    startConfetti();
                     break;
                   case 2:
-                    name.innerHTML = "🥉 " + player.name;
+                    name.innerHTML = '🥉 ' + player.name;
                     row.classList.add("highlight");
                     row.style.backgroundColor = "#cd7f32";
-                    startConfetti();
                     break;
                 }
 
-                row.style.fontWeight = 900;
-
                 // scroll to the highlighted row
+                row.scrollIntoView();
               }
             }
           });
+
         })
-        .catch((error) => console.error("Error:", error));
+        .catch(error => console.error('Error:', error));
     }
 
     function showScoreboardScreen() {
-      console.log("show scoreboard screen");
-      changeScreen(scoreboard, drumroll);
+      changeScreen(scoreboard);
       showScoreboard();
-
-      setTimeout(function () {
-        startConfetti();
-      }, middleTime);
     }
 
     function returnToMenu() {
@@ -1186,7 +1083,10 @@
       stopConfetti();
     }
 
-    animateTitleSub();
+
+    animateTitleSub()
+
+
   </script>
 
   <script>
@@ -1235,6 +1135,7 @@
       }
     }
   </script>
+
 </body>
 
 </html>
