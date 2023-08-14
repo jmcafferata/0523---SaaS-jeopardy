@@ -13,6 +13,7 @@ if (debug) {
  //
 
 app.use(cors({ origin: `http://${corsUrl}:${originPort}` }));
+app.use(express.static('public')); 
 
 app.use(express.json()); // This line is necessary to be able to parse JSON from the request body
 // Check if scores.json exists, and if not, create it
