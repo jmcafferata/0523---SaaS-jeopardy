@@ -6,7 +6,7 @@ const app = express();
 const port = 5500
 let corsUrl = "34.68.132.80"
 const originPort = 5501
-let debug = false;
+let debug = true;
 if (debug) {
   corsUrl = '127.0.0.1';
 }

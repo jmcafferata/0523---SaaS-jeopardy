@@ -563,7 +563,7 @@
     let middleTime = 2000
 
     // Debug
-    let debug = true
+    let debug = false
 
     function animateTitleSub() {
       let phrases = [
@@ -679,7 +679,7 @@
             let opacInterval = setInterval(() => {
               if (opacTime < 4) {
                   if (opacTime % 2 == 0) {
-                    roundImg.classList.add("hidden");
+                    // roundImg.classList.add("hidden");
                   } else {
                     roundImg.classList.remove("hidden");
                   }
