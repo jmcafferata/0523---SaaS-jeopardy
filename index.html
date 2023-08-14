@@ -986,7 +986,7 @@
       const playerCompany = document.getElementById("playerCompany").value;
       if (playerName && playerCompany) {
         let newScore = { name: playerName, company: playerCompany, score };
-        fetch('http://localhost:5500/scores', {
+        fetch('http://localhost:5501/scores', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -1011,7 +1011,7 @@
     };
 
     function showScoreboard(playerScore) {
-      fetch('http://localhost:5500/scores') // make sure to replace this with your server's actual address
+      fetch('http://localhost:5501/scores') // make sure to replace this with your server's actual address
         .then(response => response.json())
         .then(data => {
           let scoresTable = document.getElementById("scores");

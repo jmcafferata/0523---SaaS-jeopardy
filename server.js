@@ -3,7 +3,7 @@ const fs = require('fs');
 const cors = require('cors');
 const app = express();
 // get port, corsUrl and originPort from config.json
-const port = 5500
+const port = 5501
 let corsUrl = "34.68.132.80"
 const originPort = 5501
 let debug = true;
@@ -24,9 +24,15 @@ fs.access('scores.json', fs.constants.F_OK, (err) => {
   }
 });
 
+// render index.html
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/index.html');
+});
+
 app.get('/scores', (req, res) => {
   fs.readFile('scores.json', 'utf8', (err, data) => {
     if (err) {
+      console.log('fuck!')
       console.error(err);
       res.sendStatus(500);
     } else {
