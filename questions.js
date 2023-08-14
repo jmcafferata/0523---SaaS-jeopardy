@@ -1,138 +1,132 @@
-let rounds = [
+export const questions = [
     // Round 1: State of SaaS Management
-    {title: "The State of SaaS Management",
-    questions:[
+    [
         {
             question:
-                "On average, how many SaaS Subscriptions do companies have?",
-            options: ["12", "36", "52", "79"],
-            answer: 1,
-        },
-        {
-            question:
-                "What % of companies have not reduced their SaaS spending over the last six months?",
-            options: ["28%", "39%", "53%", "67%"],
+                "On average, how much are companies spending on software each year?",
+            options: ["$54,451", "$78,325", "$102,392", "$127,854"],
             answer: 2,
         },
         {
             question:
-                "What % of companies are planning to increase the number of SaaS Subscriptions they have over the next 6 months?",
-            options: ["41%", "58%", "63%", "78%"],
+                "On average, how many software subscriptions does a 201 - 500 person business have?",
+            options: ["28", "36", "43", "51"],
+            answer: 3,
+        },
+        {
+            question:
+                "On average, how many software subscriptions does a 501+ person business have?",
+            options: ["46", "51", "74", "89"],
+            answer: 2,
+        },
+        {
+            question:
+                "What percentage of executives monitor their software subscriptions continously?",
+            options: [
+                "31%",
+                "45%",
+                "58%",
+                "72%",
+            ],
             answer: 0,
         },
         {
             question:
-                "Which tools are considered the most critical to businesses? Pick two.",
+                "Have companies' cancelled more or less subscriptions in 2023 than 2022?",
             options: [
-                "Project Management",
-                "IT & Security",
-                "HR",
-                "CRM",
+                "More",
+                "Less"
             ],
-            answer: [0,3],
+            answer: 1,
         },
         {
             question:
-                "Which are seen as the biggest benefits of SaaS subscriptions? Pick two.",
+                "What percentage of businesses maintained or increased their software spend in 2022?",
+            options: ["29%", "42%", "67%", "82%"],
+            answer: 3,
+        },
+        {
+            question:
+                "What percentage of respondents hadn't cancelled any subscriptions in 2023?",
+            options: ["12%", "39%", "57%", "74%"],
+            answer: 2,
+        },
+        {
+            question:
+                "What percentage of excutives plan to increase their software subscription count in 2023?",
             options: [
-                "Automation",
-                "Scalability",
+                "6%",
+                "21%",
+                "36%",
+                "41%",
+            ],
+            answer: 4,
+        },
+        {
+            question:
+                "What percentage of exceutives believe all their software subscriptions add value?",
+            options: [
+                "23%",
+                "47%",
+                "64%",
+                "89%",
+            ],
+            answer: 1,
+        },
+        {
+            question:
+                "What are the top two percieved benefits of software subscriptions?",
+            options: [
+                "Quick Implementation",
                 "Employee Productivity",
-                "Connectivity",
+                "Scalability",
+                "Customization",
             ],
-            answer: [1,2],
+            answer: [1, 2],
         },
         {
             question:
-                "What % of organizations are continuously monitoring the different types of software they use?",
-            options: ["31%", "46%", "65%", "78%"],
-            answer: 0,
-        },
-        {
-            question:
-                "What % of respondents believe that all their SaaS subscriptions add value to their business?",
-            options: ["32%", "47%", "61%", "74%"],
-            answer: 1,
-        },
-        {
-            question:
-                "Which are seen as the biggest concerns of SaaS subscriptions? Pick two.",
+                "What are the top two percieved concerns of software subscriptions?",
             options: [
-                "Duplicate Features",
-                "Low Usage",
-                "Implementation Time",
                 "Security Risks",
+                "Duplicate Features",
+                "On & Off-Boarding",
+                "Lack of use",
             ],
-            answer: [1,3],
+            answer: [0, 3],
         },
         {
             question:
-                "Which is the principal reason to cut a software subscription?",
-            options: [
-                "Duplicate Features",
-                "Low Usage",
-                "Implementation Time",
-                "Security Risks",
-            ],
-            answer: 0,
-        },
-        {
-            question:
-                "Which is the secondary reason to cut a software subscription?",
-            options: [
-                "Duplicate Features",
-                "Low Usage",
-                "Implementation Time",
-                "Security Risks",
-            ],
-            answer: 1,
-        },
-        {
-            question:
-                "What % of respondents believe employees have SaaS subscriptions that they or senior management are unaware of?",
-            options: ["27%", "35%", "43%", "51%"],
+                "What percentage of executives suspect employees have unauthorized SaaS Subscriptions?",
+            options: ["21%", "36%", "43%", "57%"],
             answer: 2,
         },
         {
             question:
-                "Which department is commonly responsible for approving SaaS Purchases?",
-            options: ["HR", "Operations", "Finance", "IT"],
+                "What percentage of executives are concerned about the risk of privacy and data breaches from SaaS?",
+            options: ["21%", "36%", "47%", "53%"],
             answer: 3,
         },
         {
             question:
-                "What % of respondents believe IT should be responsible for approving purchases?",
-            options: ["32%", "48%", "62%", "79%"],
+                "What percentage of executives believe that cutting SaaS subscriptions would leave to significant savings?",
+            options: ["44%", "56%", "68%", "82%"],
+            answer: 0,
+        },
+        {
+            question:
+                "What percentage of executives acknowledge that poor SaaS Management is detrimental to company culture?",
+            options: ["53%", "65%", "77%", "92%"],
             answer: 1,
         },
         {
             question:
-                "What % of respondents had to chase employees to reconcile SaaS payments in the last six months?",
-            options: ["15%", "22%", "29%", "34%"],
-            answer: 2,
-        },
-        {
-            question:
-                "How many hours are wasted each month on manual software tasks?",
-            options: ["9", "15", "21", "30"],
+                "What percentage of finance leaders have struggled to reconcile subscription benefits with their costs?",
+            options: ["53%", "65%", "77%", "92%"],
             answer: 1,
-        },
-        {
-            question:
-                "How much software spend is wasted each month on duplicate, unused subscriptions?",
-            options: ["15%", "30%", "45%", "60%"],
-            answer: 1,
-        },
-        {
-            question:
-                "What % of respondents agree that poor SaaS Management causes tension between Finance & other teams?",
-            options: ["35%", "45%", "55%", "65%"],
-            answer: 3,
-        },
-    ]}, 
-    // Round 2: The AI Landscape Boom
-    {title: "The AI Landscape Boom",
-    questions:[
+        }
+    ], [
+        // Round 2: The AI Landscape Boom
         {
             question:
                 "Year-On-Year what is the growth rate of spend on AI tools?",
@@ -188,90 +182,78 @@ let rounds = [
             options: ["Lavender", "OpenAI", "CopyAI", "Gong"],
             answer: 3,
         },
-    ]}, 
-    // Round 3: Q1 SaaS Specifics
-    {title: "Q1 SaaS Specifics",
-    questions:[
+    ], [
+        // Round 3: SaaS Almanac
+        // add bis with extra questions if needed
         {
             question:
-                "At the end of 2022, how much capital was left for VCs to invest?",
-            options: ["$580B", "$620B", "$660B", "$720B"],
+                "What was the overall rise in software spend in Q2 2023 v.s. Q2 2022",
+            options: ["16%", "25%", "34%", "48%"],
+            answer: 1,
+        },
+        {
+            question: "What is the most popular SaaS tool in 2023",
+            options: ["Jira", "Slack", "Zoom", "Notion"],
             answer: 0,
         },
         {
-            question: "Year-on-Year how much has VC investment declined by?",
-            options: ["39%", "46%", "53%", "62%"],
+            question: "In the top 10 tools, where does Figma rank?",
+            options: ["3", "5", "7", "9"],
+            answer: 0,
+        },
+        {
+            question:
+                "In the top 10 tools, where does Slack rank?",
+            options: ["3", "5", "7", "9"],
+            answer: 1
+        },
+        {
+            question:
+                "In the top 10 tools, where does ChatGPT rank?",
+            options: ["3", "5", "7", "9"],
+            answer: 2
+        },
+        {
+            question:
+                "In the top 10 tools, where does Zoom rank?",
+            options: ["2", "4", "6", "8"],
+            answer: 3
+        },
+        {
+            question:
+                "In the top 10 tools, where does Notion rank?",
+            options: ["4", "6", "8", "10"],
+            answer: 3
+        },
+        {
+            question:
+                "In the top 50 tools, where does Canva rank?",
+            options: ["14", "20", "37", "42"],
+            answer: 1,
+        },
+        {
+            question:
+                "In the top 50 tools, where does Asana rank?",
+            options: ["16", "22", "36", "47"],
             answer: 2,
         },
         {
-            question: "Did the SaaS Market experience growth Q1 '23 over Q4 '22?",
-            options: ["Yes", "No"],
-            answer: 0,
-            bis:
-            {
-                question: "By how much?",
-                options: ["4.1%", "4.9%", "5.3%", "6.7%"],
-                answer: 3,
-            },
-        },
-        {
             question:
-                "Did the SaaS Market experience growth March '23 over February '23?",
-            options: ["Yes", "No"],
-            answer: 0,
-            bis:
-            {
-                question: "By how much?",
-                options: ["1.2%", "1.7%", "2.2%", "2.7%"],
-                answer: 1,
-            },
-        },
-        {
-            question:
-                "Did the SaaS Market experience growth March '23 over March '22?",
-            options: ["Yes", "No"],
-            answer: 0,
-            bis:
-            {
-                question: "By how much?",
-                options: ["26%", "31%", "37%", "45%"],
-                answer: 2,
-            },
-        },
-        {
-            question:
-                "Which Category saw the biggest increase in Year-on-Year spend?",
-            options: [
-                "Productivity",
-                "IT Security",
-                "Customer Success",
-                "Design",
-            ],
+                "In the top 50 tools, where does Datadog rank?",
+            options: ["17", "25", "33", "41"],
             answer: 3,
-            bis:
-            {
-                question: "By how much?",
-                options: ["122%", "146%", "168%", "197%"],
-                answer: 1,
-            },
         },
         {
             question:
-                "Which Category saw the biggest decrease in Year-on-Year spend?",
-            options: ["Finance", "Marketing", "Sales", "Operations"],
-            answer: 3,
-            bis:
-            {
-                question: "By how much?",
-                options: ["-44%", "-49%", "-53%", "-58%"],
-                answer: 0,
-            },
+                "In the top 50 tools, where does Zapier rank?",
+            options: ["14", "28", "36", "48"],
+            answer: 0,
         },
         {
             question:
-                "Of the Top 10 New Apps in March 2023, how many has AI features?",
-            options: ["2", "4", "6", "8"],
-            answer: 1,
+                "In the top 50 tools, where does BambooHR rank?",
+            options: ["12", "26", "34", "43"],
+            answer: 2,
         },
-    ]}
+    ]
 ];
