@@ -516,6 +516,9 @@
 
   <script>
 
+    // Server URL
+    const url = 'http://localhost:5501/'
+
     // Screens
     const menu = document.getElementById("menu");
     const game = document.getElementById("game");
@@ -951,6 +954,42 @@
         }
 
       };
+
+      // append the question and user answer to answers.json
+      // if selectedoption isnt an array
+
+      if (!Array.isArray(selectedOption)) {
+        var answer = {
+          question: question.question,
+          answer: question.options[question.answer],
+          userAnswer: question.options[selectedOption],
+        };
+      } else {
+        var answer = {
+          question: question.question,
+          answer: question.answer.map(
+            (element) => question.options[element]
+          ),
+          userAnswer: selectedOption.map(
+            (element) => question.options[element]
+          ),
+        };
+      }
+      
+      fetch(url+"api/answers", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(answer),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Success:", data);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
     }
 
     function nextQuestion() {
@@ -986,7 +1025,7 @@
       const playerCompany = document.getElementById("playerCompany").value;
       if (playerName && playerCompany) {
         let newScore = { name: playerName, company: playerCompany, score };
-        fetch('http://localhost:5501/scores', {
+        fetch(url+'scores', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -1011,7 +1050,7 @@
     };
 
     function showScoreboard(playerScore) {
-      fetch('http://localhost:5501/scores') // make sure to replace this with your server's actual address
+      fetch(url+'scores') // make sure to replace this with your server's actual address
         .then(response => response.json())
         .then(data => {
           let scoresTable = document.getElementById("scores");
